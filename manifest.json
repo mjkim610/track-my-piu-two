@@ -5,6 +5,7 @@
   "description": "Tracks user PIU (Personally Identifiable User Information)",
   "version": "1.0",
   "icons": {"16": "onyx.png", "48": "onyx.png", "128": "onyx.png"},
+
   "browser_action": {
       "default_icon": "onyx.png"
   },
