@@ -3,11 +3,6 @@ var pass = document.querySelectorAll('input[type=password]');
 pass = pass[0];
 //alert(pass.id);
 
-/*
-    in naver, this does not find the right form
-    it should find id=frmNIDLogin
-    but it finds [object HTMLInputElement]
-*/
 //find a form including the password element
 var logform = pass.form;
 //alert(logform.id);
@@ -20,18 +15,24 @@ sub = sub[0];
 // if submit button is clicked call saveLoginHistory function
 sub.onclick = saveLoginHistory;
 
-function saveLoginHistory() {
-    alert(pass.value);
-    chrome.storage.sync.set({'password': password}, function() {
-        message("Password saved!");
-    })
-}
 
-/*
+
+
+
+
+// data is saved in 000003.txt at
+// C:\Users\mjkim\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\eilllankfpchokjofpgnhjbfppmhjckh
 function saveLoginHistory() {
-    alert("i have to save this!");
-    chrome.storage.sync.set({'passwordId:' passId}, function() {
-        message('Password ID saved');
-    });
+
+    // check all elements in the form containing the "password input" element
+    alert("Number of elements in form: " + logform.elements.length);
+    var i;
+    for (i = 0; i < logform.elements.length; i++) {
+        alert("Element " + i + ": " + logform.elements[i].id);
+    }
+
+    // actual storage logic
+    chrome.storage.local.set({'url': document.URL});
+    chrome.storage.local.set({'password': pass.value});
+    chrome.storage.local.set({'time': Date.now()});
 }
-*/
