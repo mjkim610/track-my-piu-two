@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <head>
+    <style>
+    table, td {
+        border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Hi, this is your home.</h1>
+    <h1>Login Attempts List</h1>
     <p id="urlInfo"></p>
     <p id="passwordInfo"></p>
     <p id="timeInfo"></p>
+    <p id="test"></p>
 
-    <div id="loginInfo">
-        
+    <div id="loginInfo"></div>
+    <div id="tableContainer">
+        <table id="loginInfoTable">
+            <tr>
+                <th>URL</th>
+                <th>Password</th>
+                <th>Time</th>
+            </tr>
+        </table>
     </div>
+
+    <button id="reset">Reset Login History</button>
 
     <script src="getInfo.js"></script>
 </body>

@@ -30,19 +30,16 @@ function saveLoginHistory() {
     chrome.storage.local.get({urls: []}, function (result) {
         var urls = result.urls;
         urls.push(document.URL);
-//        chrome.storage.local.remove({ urls: urls });
         chrome.storage.local.set({ urls: urls });
     });
     chrome.storage.local.get({passwords: []}, function (result) {
         var passwords = result.passwords;
         passwords.push(password.value);
-//        chrome.storage.local.remove({ passwords: passwords });
         chrome.storage.local.set({ passwords: passwords });
     });
-    chrome.storage.local.get({loginTimes: []}, function (result) {
-        var loginTimes = result.loginTimes;
-        loginTimes.push(Date.now());
-//        chrome.storage.local.remove({ loginTimes: loginTimes });
-        chrome.storage.local.set({ loginTimes: loginTimes });
+    chrome.storage.local.get({times: []}, function (result) {
+        var times = result.times;
+        times.push(Date.now());
+        chrome.storage.local.set({ times: times });
     });
 }
