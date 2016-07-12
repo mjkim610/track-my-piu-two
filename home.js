@@ -17,10 +17,12 @@ function loadTable() {
         for (i=0; i<entryCount; i++) {
             var row = table.insertRow(i+1);
             var cellUrl = row.insertCell(0);
-            var cellPassword = row.insertCell(1);
-            var cellTime = row.insertCell(2);
+            var cellId = row.insertCell(1);
+            var cellPassword = row.insertCell(2);
+            var cellTime = row.insertCell(3);
 
             cellUrl.innerHTML = result.urls[i];
+            cellId.innerHTML = result.ids[i];
             cellPassword.innerHTML = result.passwords[i];
             cellTime.innerHTML = result.times[i];
         }
