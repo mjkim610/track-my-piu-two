@@ -17,12 +17,12 @@ function loadTable() {
         for (i=0; i<entryCount; i++) {
             var row = table.insertRow(i+1);
             var cellUrl = row.insertCell(0);
-            var cellId = row.insertCell(1);
+            var cellUsername = row.insertCell(1);
             var cellPassword = row.insertCell(2);
             var cellTime = row.insertCell(3);
 
             cellUrl.innerHTML = result.urls[i];
-            cellId.innerHTML = result.ids[i];
+            cellUsername.innerHTML = result.usernames[i];
             cellPassword.innerHTML = result.passwords[i];
             cellTime.innerHTML = result.times[i];
         }
@@ -32,7 +32,8 @@ function loadTable() {
 function resetHistory() {
     chrome.storage.local.clear();
     alert("History cleared!");
+    chrome.tabs.reload();
 }
 
-document.body.onload = loadTable
+document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
