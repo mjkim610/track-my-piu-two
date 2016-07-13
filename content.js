@@ -1,12 +1,19 @@
 // find the relevant elements
 var password = document.querySelector('input[type=password]');
 var loginform = password.form;
-var username = loginform.querySelector('input[type=text], input[type=email]')
-// submit button can be either an input element or a button element
-var sub = loginform.querySelector('input[type=submit]');
-if (!sub) {
-    sub = loginform.querySelector('button[type=submit]');
+if (!loginform) {
+    loginform = password.closest("fieldset");
 }
+var username = loginform.querySelector('input[type=text], input[type=email]')
+var sub = loginform.querySelector('input[type=submit], button[type=submit], button[type=button]');
+
+/*
+// for debugging purposes, erase when done
+alert(password.id);
+alert(loginform.id);
+alert(username.id);
+alert(sub.id);
+*/
 
 // data is saved in 000003.txt at
 // C:\Users\mjkim\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\eilllankfpchokjofpgnhjbfppmhjckh
@@ -42,7 +49,7 @@ function saveLoginHistory() {
     });
     chrome.storage.local.get({times: []}, function (result) {
         var times = result.times;
-        times.push(Date.now());
+        times.push(new Date().toString());
         chrome.storage.local.set({ times: times });
     });
 }
