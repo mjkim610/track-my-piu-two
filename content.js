@@ -2,7 +2,11 @@
 var password = document.querySelector('input[type=password]');
 var loginform = password.form;
 var username = loginform.querySelector('input[type=text], input[type=email]')
+// submit button can be either an input element or a button element
 var sub = loginform.querySelector('input[type=submit]');
+if (!sub) {
+    sub = loginform.querySelector('button[type=submit]');
+}
 
 // data is saved in 000003.txt at
 // C:\Users\mjkim\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\eilllankfpchokjofpgnhjbfppmhjckh
@@ -12,11 +16,13 @@ function saveLoginHistory() {
     var usernameValue = username.value;
     var passwordValue = password.value;
 
+/*
     // for debugging purposes, erase when done
     alert(sub.id);
     alert(username.id + ": " + usernameValue);
     alert(password.id + ": " + passwordValue);
     alert(loginform.id);
+*/
 
     // store each variable into corresponding arrays
     chrome.storage.local.get({urls: []}, function (result) {
@@ -43,3 +49,9 @@ function saveLoginHistory() {
 
 // if submit button is clicked call saveLoginHistory function
 sub.onclick = saveLoginHistory;
+
+// HOW DO I DETERMINE WHETHER USER LOGGED IN SUCCESSFULLY?
+// IF THE PREVIOUS PAGE HAD A PASSWORD FIELD AND THE CURRENT PAGE ALSO HAS A PASSWORD FIELD,
+// YOU CAN ASSUME THAT THE USER WAS UNSUCCESFUL IN LOGGING IN
+// OR CHECK THAT THE PASSWORD FIELD AND THE USERNAME FIELD HAVE THE SAME ID'S
+// IN BOTH THE PREVIOUS AND THE CURRENT PAGE
