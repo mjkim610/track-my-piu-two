@@ -1,3 +1,6 @@
+var domain = "";
+var isLoginAttempt;
+
 // check all open tabs in all open windows for the passed parameter url
 // if any of the tabs has the url open, focus to that tab
 // else open a new tab with the url
@@ -28,4 +31,12 @@ function focusOrCreateTab(url) {
 chrome.browserAction.onClicked.addListener(function(tab) {
     var home_url = chrome.extension.getURL("home.html");
     focusOrCreateTab(home_url);
+});
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        sendResponse({previousDomain: domain, isLoginAttempt: isLoginAttempt});
+
+        domain = request.domain;
+        isLoginAttempt = request.isLoginAttempt;
 });

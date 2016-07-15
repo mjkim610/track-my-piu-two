@@ -53,7 +53,29 @@ function saveLoginHistory() {
         times.push(new Date().toString());
         chrome.storage.local.set({ times: times });
     });
+    // resend message with correct loginAttempt value
+    sendMessage(true, true);
 }
+
+function sendMessage(submitClicked, submitExists) {
+    chrome.runtime.sendMessage({domain: document.domain, isLoginAttempt: submitClicked}, function(response) {
+        console.log("Previous domain: " + response.previousDomain);
+        console.log("Current domain: " + document.domain);
+        console.log("Previous page was login attempt: " + response.isLoginAttempt);
+        console.log("Current page was login attempt: " + submitClicked);
+        console.log("Current page was login page: " + submitExists);
+
+        if (response.previousDomain == document.domain && response.isLoginAttempt == true && submitClicked == false && submitExists == true) {
+            console.log("!!!!FAILED LOGIN ATTEMPT!!!!");
+        }
+    });
+}
+
+// store the current conditions to background.js (the else statement is unncessary because javascript error occurs at line 3)
+if (password)
+    sendMessage(false, true);
+else
+    sendMessage(false, false);
 
 // if submit button is clicked call saveLoginHistory function
 sub.onclick = saveLoginHistory;
@@ -64,4 +86,8 @@ sub.onclick = saveLoginHistory;
 // OR CHECK THAT THE PASSWORD FIELD AND THE USERNAME FIELD HAVE THE SAME ID'S
 // IN BOTH THE PREVIOUS AND THE CURRENT PAGE
 
-// when onclick is fired, flip the LOGINATTEMPT flag inside the background.js
+// content.js: when onclick is fired, tell background.js (onclick, domain)
+// content.js: when a page is loaded, check if there is a password field and ask background.js
+// background.js: if request message is received, send the most recent domain address (where onclick occured)
+// content.js: when the message is received, if the domain address is different, break
+// content.js:      else if the domain address is same, login attempt has failed
