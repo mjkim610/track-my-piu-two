@@ -34,22 +34,7 @@ function saveLoginHistory() {
     // store each variable into corresponding arrays
     chrome.storage.local.get({urls: []}, function (result) {
         var urls = result.urls;
-
-        var res = document.URL.split(/[.\/]/);
-        var i;
-        var url = "";
-        for (i=0; i<res.length; i++) {
-            if (res[i]=="com" || res[i]=="net" || res[i]=="org" || res[i]=="edu" || res[i]=="gov") {
-                url = "*." + res[i-1] + "." + res[i];
-                break;
-            }
-            if (res[i]=="co" || res[i]=="ac") {
-                url = "*." + res[i-1] + "." + res[i] + "." + res[i+1];
-                break;
-            }
-        }
-
-        urls.push(url);
+        urls.push(document.domain);
         chrome.storage.local.set({ urls: urls });
 
     });
