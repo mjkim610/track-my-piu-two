@@ -1,33 +1,31 @@
 {
-    "manifest_version": 2,
+  "manifest_version": 2,
 
-    "name": "Track My PIU 2",
-    "description": "Tracks user PIU (Personally Identifiable User Information)",
-    "version": "1.0",
-    "icons": {
-        "16": "onyx.png",
-        "48": "onyx.png",
-        "128": "onyx.png"
-    },
+  "name": "Track My PIU 2",
+  "description": "Tracks user PIU (Personally Identifiable User Information)",
+  "version": "1.0",
+  "icons": {"16": "onyx.png", "48": "onyx.png", "128": "onyx.png"},
 
-    "browser_action": {
-        "default_icon": "onyx.png"
-    },
+  "browser_action": {
+      "default_icon": "onyx.png"
+  },
 
-    "content_scripts": [{
-        "matches": [
-            "https://*/*", "http://*/*"
-        ],
-        "js": ["content.js", "jquery-3.0.0.min.js"]
-    }],
+  "content_scripts": [
+  {
+	"matches": [
+		"https://*/*", "http://*/*"
+	],
+	"js": ["content.js", "jquery-3.0.0.min.js"]
+  }],
 
-    "background": {
-        "scripts": ["background.js"]
-    },
+  "background": {
+	"scripts": ["background.js"]
+  },
 
-    "permissions": [
-        "storage",
-        "activeTab",
-        "https://ajax.googleapis.com/"
-    ]
+  "permissions": [
+	"tabs",
+    "storage",
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
 }
