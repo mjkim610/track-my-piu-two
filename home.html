@@ -1,50 +1,55 @@
 <!DOCTYPE html>
+
 <head>
     <style>
-	body {
-	
-	margin: auto;
-	width: 80%;
-	border: 3px solid gray;
-	padding: 10px;
-	text-align: center;
-	}
-	h1 {
-		font-size: 40px;
-		vertical-align: center;
-		}
-    table, td {
-		margin: auto;
-		vertical-align: middle;
-		
-        border: 1px solid black;
-		font-size: 20px;
+        body {
+            margin: auto;
+            width: 80%;
+            border: 3px solid gray;
+            padding: 10px;
+            text-align: center;
         }
-	.dropdown {
-		position: relative;
-		display: inline-black;
-	}
-	.dropdown-content {
-		display: none;
-		position: absolute;
-		background-color: #f9f9f9;
-		min-width: 160px;
-		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-		padding: 12px 16px;
-	}
-	.dropdown:hover .dropdown-content {
-	display: block;}
+
+        h1 {
+            font-size: 40px;
+            vertical-align: center;
+        }
+
+        table, td {
+            margin: auto;
+            vertical-align: middle;
+            border: 1px solid black;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-black;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
     <h1>Login Attempts List</h1>
-	<div id = "search">
-		<input type ="text" id = "searchText" name ="searchText">
-		<button id ="search">Search </button>
-		<input type = "radio" name="search" value="URL" id ="radioURL">URL
-		<input type = "radio" name="search" value="UserName" id = "radioID" >UserName 
-	</div>
+    <div id="search">
+        <input type="text" id="searchText" name="searchText">
+        <button id="search">Search </button>
+        <input type="radio" name="search" value="URL" id="radioURL">URL
+        <input type="radio" name="search" value="UserName" id="radioID">UserName
+    </div>
     <p id="urlInfo"></p>
     <p id="usernameInfo"></p>
     <p id="passwordInfo"></p>
@@ -55,13 +60,13 @@
         <table id="loginInfoTable">
             <tr>
                 <th>
-					<div class = "dropdown">
-						<span>URL</span>
-						<div class = "dropdown-content">
-							<p>Hello World!</p>
-						</div>
-					</div>
-				</th>
+                    <div class="dropdown">
+                        <span>URL</span>
+                        <div class="dropdown-content">
+                            <p>Hello World!</p>
+                        </div>
+                    </div>
+                </th>
                 <th>Username</th>
                 <th>Password (Encrypted)</th>
                 <th>Time</th>
@@ -70,9 +75,6 @@
     </div>
 
     <button id="reset">Reset Login History</button>
-
-    <p id="encryption"></p>
-    <p id="decryption"></p>
 
     <script src="home.js"></script>
     <script src="aes.js"></script>

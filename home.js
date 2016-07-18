@@ -1,10 +1,3 @@
-var resetButton = document.querySelector("button[id=reset]");
-var searchButton = document.querySelector("button[id=search]");
-var searchText = document.getElementById("searchText");
-var table = document.getElementById("loginInfoTable");
-var radioURL = document.getElementById("radioURL");
-var radioID = document.getElementById("radioID");
-
 function loadTable() {
     // count the number of entries
     var entryCount;
@@ -44,40 +37,39 @@ function loadTable() {
             cellPassword.innerHTML = result.passwords[i];
             cellTime.innerHTML = timeConverted;
         }
-    })
-
-    // code snippet to show how CryptoJS works
-    var encryption = document.getElementById("encryption");
-    encryption.innerHTML = CryptoJS.AES.encrypt("Hello world", "passphrase");
-    var decryption = document.getElementById("decryption");
-    decryption.innerHTML = CryptoJS.AES.decrypt(encryption.innerHTML, "passphrase").toString(CryptoJS.enc.Utf8);
-
+    });
 }
 
-
-function showResult(){
-	if (searchText.value==""){
-		alert("SearchBox is Empty!");
-	}else{
-		alert(searchText.value);
-		if(radioURL.checked){
-			alert("URL");
-
-			
-		}else if(radioID.checked){
-			alert("ID");
-			
-		}else{
-			alert("Please select search type!");
-		}
-	}	
-	
+function showResult() {
+    if (searchText.value == "") {
+        alert("SearchBox is Empty!");
+    }
+    else {
+        alert(searchText.value);
+        if (radioURL.checked) {
+            alert("URL");
+        }
+        else if (radioID.checked) {
+            alert("ID");
+        }
+        else {
+            alert("Please select search type!");
+        }
+    }
 }
+
 function resetHistory() {
     chrome.storage.local.clear();
     alert("History cleared!");
     chrome.tabs.reload();
 }
+
+var resetButton = document.querySelector("button[id=reset]");
+var searchButton = document.querySelector("button[id=search]");
+var searchText = document.getElementById("searchText");
+var table = document.getElementById("loginInfoTable");
+var radioURL = document.getElementById("radioURL");
+var radioID = document.getElementById("radioID");
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;

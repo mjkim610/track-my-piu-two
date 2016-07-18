@@ -1,6 +1,3 @@
-var domain = "";
-var isLoginAttempt;
-
 // check all open tabs in all open windows for the passed parameter url
 // if any of the tabs has the url open, focus to that tab
 // else open a new tab with the url
@@ -40,3 +37,6 @@ chrome.runtime.onMessage.addListener(
         domain = request.domain;
         isLoginAttempt = request.isLoginAttempt;
 });
+
+var domain = "";
+var isLoginAttempt;
