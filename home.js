@@ -45,50 +45,36 @@ function showResult() {
         alert("SearchBox is Empty!");
     }
     else {
-        //alert(searchText.value);
-		chrome.storage.local.get(null, function (result) {
-			entryCount = result.urls.length;
+		rows = table.getElementsByTagName("tr");
 			if (radioURL.checked) {
-				removeTable();
-				alert("URL");
-				for (i=0; i<entryCount; i++) {
-					if(result.urls[i].includes(searchText.value)){
-						row = table.insertRow(i+1);
-						cellUrl = row.insertCell(0);
-						cellUsername = row.insertCell(1);
-						cellPassword = row.insertCell(2);
-						cellTime = row.insertCell(3);
-						
-						 // format time variable into readable format
-						timeConverted = new Date(result.times[i]);
-						yyyy = timeConverted.getFullYear();
-						mm = timeConverted.getMonth()+1;
-						if (mm < 10) { mm = '0' + mm; }
-						dd = timeConverted.getDate();
-						if (dd < 10) { dd = '0' + dd; }
-						hh = timeConverted.getHours();
-						if (hh >= 12) { hh = hh - 12; ampm = 'PM'; }
-						else { ampm = 'AM' };
-						minute = timeConverted.getMinutes();
-						if (minute < 10) { minute = '0' + minute; }
-						ss = timeConverted.getSeconds();
-						if (ss < 10) { ss = '0' + ss; }
+				alert("search by URL");
+				for(var i = 1; i<rows.length; i++){
+					var row = rows[i];
+					var url = row.getElementsByTagName("td")[0].innerHTML;
 
-						timeConverted = yyyy + '/' + mm + '/' + dd + ' ' + hh + ':' + minute + ':' + ss + ' ' + ampm;
-
-						cellUrl.innerHTML = result.urls[i];
-						cellUsername.innerHTML = result.usernames[i];
-						cellPassword.innerHTML = result.passwords[i];
-						cellTime.innerHTML = timeConverted;
-					}	
+					if(url.includes(searchText.value)){
+						row.style.display='';
+					}else{
+						row.style.display='none';
+					}					
 				}
 			}else if (radioID.checked) {
-				alert("ID");
+				alert("search by ID");
+				for(var i = 1; i<rows.length; i++){
+					var row = rows[i];
+					var userName = row.getElementsByTagName("td")[1].innerHTML;
+
+					if(userName.includes(searchText.value)){
+						row.style.display='';
+					}else{
+						row.style.display='none';
+					}					
+				}
 			}
 			else {
 				alert("Please select search type!");
 			}
-		})
+		
     }
 }
 
