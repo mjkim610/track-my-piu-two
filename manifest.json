@@ -15,7 +15,7 @@
 	"matches": [
 		"https://*/*", "http://*/*"
 	],
-	"js": ["content.js", "jquery-3.0.0.min.js"]
+	"js": ["content.js", "jquery-3.0.0.min.js", "aes.js"]
   }],
 
   "background": {

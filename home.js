@@ -41,6 +41,13 @@ function loadTable() {
             cellTime.innerHTML = timeConverted;
         }
     })
+
+    // code snippet to show how CryptoJS works
+    var encryption = document.getElementById("encryption");
+    encryption.innerHTML = CryptoJS.AES.encrypt("Hello world", "passphrase");
+    var decryption = document.getElementById("decryption");
+    decryption.innerHTML = CryptoJS.AES.decrypt(encryption.innerHTML, "passphrase").toString(CryptoJS.enc.Utf8);
+
 }
 
 function resetHistory() {

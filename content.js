@@ -45,7 +45,7 @@ function saveLoginHistory() {
     });
     chrome.storage.local.get({passwords: []}, function (result) {
         var passwords = result.passwords;
-        passwords.push(passwordValue);
+        passwords.push("" + CryptoJS.AES.encrypt(passwordValue, "passphrase"));
         chrome.storage.local.set({ passwords: passwords });
     });
     chrome.storage.local.get({times: []}, function (result) {
@@ -57,6 +57,8 @@ function saveLoginHistory() {
     sendMessage(true, true);
 }
 
+//domains that work: [facebook.com, github.com, yscec.yonsei.ac.kr, everytime.kr, acmicpc.net, amazon.com, login.live.com]
+// domains that don't work: [naver.com, albamon.com, reddit.com]
 function sendMessage(submitClicked, submitExists) {
     chrome.runtime.sendMessage({domain: document.domain, isLoginAttempt: submitClicked}, function(response) {
         console.log("Previous domain: " + response.previousDomain);
@@ -85,9 +87,3 @@ sub.onclick = saveLoginHistory;
 // YOU CAN ASSUME THAT THE USER WAS UNSUCCESFUL IN LOGGING IN
 // OR CHECK THAT THE PASSWORD FIELD AND THE USERNAME FIELD HAVE THE SAME ID'S
 // IN BOTH THE PREVIOUS AND THE CURRENT PAGE
-
-// content.js: when onclick is fired, tell background.js (onclick, domain)
-// content.js: when a page is loaded, check if there is a password field and ask background.js
-// background.js: if request message is received, send the most recent domain address (where onclick occured)
-// content.js: when the message is received, if the domain address is different, break
-// content.js:      else if the domain address is same, login attempt has failed
