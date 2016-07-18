@@ -1,5 +1,9 @@
 var resetButton = document.querySelector("button[id=reset]");
+var searchButton = document.querySelector("button[id=search]");
+var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
+var radioURL = document.getElementById("radioURL");
+var radioID = document.getElementById("radioID");
 
 function loadTable() {
     // count the number of entries
@@ -50,6 +54,25 @@ function loadTable() {
 
 }
 
+
+function showResult(){
+	if (searchText.value==""){
+		alert("SearchBox is Empty!");
+	}else{
+		alert(searchText.value);
+		if(radioURL.checked){
+			alert("URL");
+
+			
+		}else if(radioID.checked){
+			alert("ID");
+			
+		}else{
+			alert("Please select search type!");
+		}
+	}	
+	
+}
 function resetHistory() {
     chrome.storage.local.clear();
     alert("History cleared!");
@@ -58,3 +81,4 @@ function resetHistory() {
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
+searchButton.onclick = showResult;
