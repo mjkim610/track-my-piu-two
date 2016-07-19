@@ -1,6 +1,6 @@
 function loadTable() {
     // count the number of entries
-    var entryCount;
+
     chrome.storage.local.get(null, function (result) {
         entryCount = result.urls.length;
 
@@ -47,16 +47,36 @@ function showResult() {
         alert("SearchBox is Empty!");
     }
     else {
-        alert(searchText.value);
-        if (radioURL.checked) {
-            alert("URL");
-        }
-        else if (radioID.checked) {
-            alert("ID");
-        }
-        else {
-            alert("Please select search type!");
-        }
+		rows = table.getElementsByTagName("tr");
+			if (radioURL.checked) {
+				alert("search by URL");
+				for(var i = 1; i<rows.length; i++){
+					var row = rows[i];
+					var url = row.getElementsByTagName("td")[0].innerHTML;
+
+					if(url.includes(searchText.value)){
+						row.style.display='';
+					}else{
+						row.style.display='none';
+					}
+				}
+			}else if (radioID.checked) {
+				alert("search by ID");
+				for(var i = 1; i<rows.length; i++){
+					var row = rows[i];
+					var userName = row.getElementsByTagName("td")[1].innerHTML;
+
+					if(userName.includes(searchText.value)){
+						row.style.display='';
+					}else{
+						row.style.display='none';
+					}
+				}
+			}
+			else {
+				alert("Please select search type!");
+			}
+
     }
 }
 
@@ -65,6 +85,18 @@ function resetHistory() {
     alert("History cleared!");
     chrome.tabs.reload();
 }
+function removeTable(){
+	for(i=0; i<entryCount; i++){
+		row = table.deleteRow(entryCount-i);
+	}
+}
+var entryCount;
+var resetButton = document.querySelector("button[id=reset]");
+var searchButton = document.querySelector("button[id=search]");
+var searchText = document.getElementById("searchText");
+var table = document.getElementById("loginInfoTable");
+var radioURL = document.getElementById("radioURL");
+var radioID = document.getElementById("radioID");
 
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
