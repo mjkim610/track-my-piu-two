@@ -24,6 +24,7 @@
         "scripts": ["background.js"]
     },
 
+<<<<<<< HEAD
     "permissions": [
         "tabs",
         "storage",
@@ -31,3 +32,20 @@
         "https://ajax.googleapis.com/"
     ]
 }
+||||||| merged common ancestors
+  "permissions": [
+	"tabs",
+    "storage",
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
+}
+=======
+    "permissions": [
+        "tabs",
+        "storage",
+        "activeTab",
+        "https://ajax.googleapis.com/"
+    ]
+}
+>>>>>>> 5408c63e1e3f90189147d51a03f7498fbbdbe5e4
