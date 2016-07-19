@@ -82,4 +82,5 @@ if (password) {
 }
 // if current page does not have a login form
 else {
-    sendMessag
+    sendMessage(false, false);
+}
