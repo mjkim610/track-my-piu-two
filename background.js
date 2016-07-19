@@ -37,13 +37,6 @@ chrome.runtime.onMessage.addListener(
         domain = request.domain;
         isLoginAttempt = request.isLoginAttempt;
 });
-<<<<<<< HEAD
 
 var domain = "";
 var isLoginAttempt;
-||||||| merged common ancestors
-=======
-
-var domain = "";
-var isLoginAttempt;
->>>>>>> 5408c63e1e3f90189147d51a03f7498fbbdbe5e4

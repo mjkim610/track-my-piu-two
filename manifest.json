@@ -4,7 +4,7 @@
     "name": "Track My PIU 2",
     "description": "Tracks user PIU (Personally Identifiable User Information)",
     "version": "1.0",
-    
+
     "icons": {
         "16": "onyx.png",
         "48": "onyx.png",
@@ -24,7 +24,6 @@
         "scripts": ["background.js"]
     },
 
-<<<<<<< HEAD
     "permissions": [
         "tabs",
         "storage",
@@ -32,20 +31,3 @@
         "https://ajax.googleapis.com/"
     ]
 }
-||||||| merged common ancestors
-  "permissions": [
-	"tabs",
-    "storage",
-    "activeTab",
-    "https://ajax.googleapis.com/"
-  ]
-}
-=======
-    "permissions": [
-        "tabs",
-        "storage",
-        "activeTab",
-        "https://ajax.googleapis.com/"
-    ]
-}
->>>>>>> 5408c63e1e3f90189147d51a03f7498fbbdbe5e4

@@ -1,6 +1,6 @@
 function loadTable() {
     // count the number of entries
-    
+
     chrome.storage.local.get(null, function (result) {
         entryCount = result.urls.length;
 
@@ -42,43 +42,6 @@ function loadTable() {
     });
 }
 
-<<<<<<< HEAD
-function showResult() {
-    if (searchText.value == "") {
-        alert("SearchBox is Empty!");
-    }
-    else {
-        alert(searchText.value);
-        if (radioURL.checked) {
-            alert("URL");
-        }
-        else if (radioID.checked) {
-            alert("ID");
-        }
-        else {
-            alert("Please select search type!");
-        }
-    }
-||||||| merged common ancestors
-
-function showResult(){
-	if (searchText.value==""){
-		alert("SearchBox is Empty!");
-	}else{
-		alert(searchText.value);
-		if(radioURL.checked){
-			alert("URL");
-
-			
-		}else if(radioID.checked){
-			alert("ID");
-			
-		}else{
-			alert("Please select search type!");
-		}
-	}	
-	
-=======
 function showResult() {
     if (searchText.value == "") {
         alert("SearchBox is Empty!");
@@ -95,7 +58,7 @@ function showResult() {
 						row.style.display='';
 					}else{
 						row.style.display='none';
-					}					
+					}
 				}
 			}else if (radioID.checked) {
 				alert("search by ID");
@@ -107,15 +70,14 @@ function showResult() {
 						row.style.display='';
 					}else{
 						row.style.display='none';
-					}					
+					}
 				}
 			}
 			else {
 				alert("Please select search type!");
 			}
-		
+
     }
->>>>>>> 5408c63e1e3f90189147d51a03f7498fbbdbe5e4
 }
 
 function resetHistory() {
