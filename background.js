@@ -32,7 +32,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        sendResponse({previousDomain: domain, isLoginAttempt: isLoginAttempt});
+        sendResponse({previousDomain: domain, previousLoginAttempt: isLoginAttempt});
 
         domain = request.domain;
         isLoginAttempt = request.isLoginAttempt;

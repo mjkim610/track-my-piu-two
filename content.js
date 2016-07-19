@@ -5,6 +5,7 @@ function saveLoginHistory() {
     // store values into separate variables
     var usernameValue = username.value;
     var passwordValue = password.value;
+    var attemptValue = attempt;
 
     // store each variable into corresponding arrays
     chrome.storage.local.get({urls: []}, function (result) {
@@ -27,6 +28,11 @@ function saveLoginHistory() {
         times.push(new Date().toString());
         chrome.storage.local.set({ times: times });
     });
+    chrome.storage.local.get({attempts: []}, function (result) {
+        var attempts = result.attempts;
+        attempts.push(attemptValue);
+        chrome.storage.local.set({ attempts: attempts });
+    });
     // resend message with correct loginAttempt value
     sendMessage(true, true);
 }
@@ -37,30 +43,44 @@ function sendMessage(submitClicked, submitExists) {
     chrome.runtime.sendMessage({domain: document.domain, isLoginAttempt: submitClicked}, function(response) {
         console.log("Previous domain: " + response.previousDomain);
         console.log("Current domain: " + document.domain);
-        console.log("Previous page was login attempt: " + response.isLoginAttempt);
+        console.log("Previous page was login attempt: " + response.previousLoginAttempt);
         console.log("Current page was login attempt: " + submitClicked);
         console.log("Current page was login page: " + submitExists);
 
-        if (response.previousDomain == document.domain && response.isLoginAttempt == true && submitClicked == false && submitExists == true) {
-            console.log("!!!!FAILED LOGIN ATTEMPT!!!!");
+        if (response.previousDomain == document.domain && response.previousLoginAttempt == true && submitClicked == false && submitExists == true) {
+            console.log("FAIL");
+        }
+        else if (response.previousDomain == document.domain && response.previousLoginAttempt == true && submitExists == false) {
+            console.log("SUCCESS");
+        }
+        else {
+            console.log("I DON'T KNOW");
         }
     });
 }
 
 // find the relevant elements
 var password = document.querySelector('input[type=password]');
-var loginform = password.form;
-if (!loginform) {
-    loginform = password.closest("fieldset");
+// if current page has a login form
+if (password) {
+    var loginform = password.form;
+    if (!loginform) {
+        loginform = password.closest("fieldset");
+    }
+    var username = loginform.querySelector('input[type=text], input[type=email]');
+    var sub = loginform.querySelector('input[type=submit], button[type=submit], button[type=button]');
+
+    // NEED TO CHANGE THIS (FOR NOW IT IS AN ARBITRARY STRING)
+    var attempt = "Unknown";
+
+    // store the current conditions to background.js (the else statement is unncessary because javascript error occurs at line 52)
+    if (password)
+        sendMessage(false, true);
+
+    // if submit button is clicked call saveLoginHistory function
+    sub.onclick = saveLoginHistory;
 }
-var username = loginform.querySelector('input[type=text], input[type=email]')
-var sub = loginform.querySelector('input[type=submit], button[type=submit], button[type=button]');
-
-// store the current conditions to background.js (the else statement is unncessary because javascript error occurs at line 52)
-if (password)
-    sendMessage(false, true);
-else
+// if current page does not have a login form
+else {
     sendMessage(false, false);
-
-// if submit button is clicked call saveLoginHistory function
-sub.onclick = saveLoginHistory;
+}

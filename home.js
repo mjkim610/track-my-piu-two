@@ -4,7 +4,7 @@ function loadTable() {
     chrome.storage.local.get(null, function (result) {
         entryCount = result.urls.length;
 
-        var row, cellUrl, cellUsername, cellPassword, cellTime,
+        var row, cellUrl, cellUsername, cellPassword, cellTime, cellAttempt,
             timeConverted, yyyy, mm, dd, hh, minute, ss, ampm;
 
         // insert each entry into a new row
@@ -14,6 +14,7 @@ function loadTable() {
             cellUsername = row.insertCell(1);
             cellPassword = row.insertCell(2);
             cellTime = row.insertCell(3);
+            cellAttempt = row.insertCell(4);
 
             // format time variable into readable format
             timeConverted = new Date(result.times[i]);
@@ -36,6 +37,7 @@ function loadTable() {
             cellUsername.innerHTML = result.usernames[i];
             cellPassword.innerHTML = result.passwords[i];
             cellTime.innerHTML = timeConverted;
+            cellAttempt.innerHTML = result.attempts[i];
         }
     });
 }
