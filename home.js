@@ -116,3 +116,5 @@ var radioID = document.getElementById("radioID");
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
+
+
