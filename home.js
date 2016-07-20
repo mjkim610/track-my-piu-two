@@ -1,7 +1,7 @@
 function loadTable() {
-    // count the number of entries
 
     chrome.storage.local.get(null, function (result) {
+        // count the number of entries
         entryCount = result.urls.length;
 
         var row, cellUrl, cellUsername, cellPassword, cellTime,
@@ -41,6 +41,7 @@ function loadTable() {
         }
     });
 }
+
 function showResult() {
     if (searchText.value == "") {
         alert("SearchBox is Empty!");

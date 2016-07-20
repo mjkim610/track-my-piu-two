@@ -1,6 +1,8 @@
 // data is saved in 000003.txt at
 // C:\Users\mjkim\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\eilllankfpchokjofpgnhjbfppmhjckh
 function saveLoginHistory() {
+    // resend message with correct loginAttempt value
+    evaluateLoginAttempt(true, true);
 
     // store values into separate variables
     var usernameValue = username.value;
@@ -20,7 +22,7 @@ function saveLoginHistory() {
     });
     chrome.storage.local.get({passwords: []}, function (result) {
         var passwords = result.passwords;
-        passwords.push("" + CryptoJS.AES.encrypt(passwordValue, "passphrase"));
+        passwords.push("" + CryptoJS.AES.encrypt(passwordValue, "passphrase")); // use arbitrary key for now
         chrome.storage.local.set({ passwords: passwords });
     });
     chrome.storage.local.get({times: []}, function (result) {
@@ -33,13 +35,9 @@ function saveLoginHistory() {
         attempts.push(attemptValue);
         chrome.storage.local.set({ attempts: attempts });
     });
-    // resend message with correct loginAttempt value
-    sendMessage(true, true);
 }
 
-//domains that work: [facebook.com, github.com, yscec.yonsei.ac.kr, everytime.kr, acmicpc.net, amazon.com, login.live.com]
-// domains that don't work: [naver.com, albamon.com, reddit.com]
-function sendMessage(submitClicked, submitExists) {
+function evaluateLoginAttempt(submitClicked, submitExists) {
     chrome.runtime.sendMessage({domain: document.domain, isLoginAttempt: submitClicked}, function(response) {
         console.log("Previous domain: " + response.previousDomain);
         console.log("Current domain: " + document.domain);
@@ -54,33 +52,30 @@ function sendMessage(submitClicked, submitExists) {
             console.log("SUCCESS");
         }
         else {
-            console.log("I DON'T KNOW");
+            console.log("UNKNOWN");
         }
     });
 }
 
-// find the relevant elements
+// check whether the page has a password element
 var password = document.querySelector('input[type=password]');
-// if current page has a login form
+
 if (password) {
+    evaluateLoginAttempt(false, true);
+
     var loginform = password.form;
-    if (!loginform) {
-        loginform = password.closest("fieldset");
-    }
+    if (!loginform) { loginform = password.closest("fieldset"); }
     var username = loginform.querySelector('input[type=text], input[type=email]');
-    var sub = loginform.querySelector('input[type=submit], button[type=submit], button[type=button]');
+    var sub = loginform.querySelector('input[type=submit]');        // do multiple if loops instead of OR condition
+    if (!sub) { loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
+    if (!sub) { loginform.querySelector('button[type=button]'); }   // input types/button types
 
     // NEED TO CHANGE THIS (FOR NOW IT IS AN ARBITRARY STRING)
-    var attempt = "Unknown";
-
-    // store the current conditions to background.js (the else statement is unncessary because javascript error occurs at line 52)
-    if (password)
-        sendMessage(false, true);
+    var attempt = "unchecked";
 
     // if submit button is clicked call saveLoginHistory function
     sub.onclick = saveLoginHistory;
 }
-// if current page does not have a login form
 else {
-    sendMessage(false, false);
+    evaluateLoginAttempt(false, false);
 }
