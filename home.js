@@ -112,9 +112,12 @@ var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
 var radioID = document.getElementById("radioID");
+var dropdown = document.getElementsByName("mydropdown");
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
-searchButton.onclick = showResult;
+
+
+
 
 
