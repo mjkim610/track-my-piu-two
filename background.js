@@ -32,16 +32,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
+        sendResponse({previousDomain: domain, previousLoginAttempt: isLoginAttempt, previousLoginPage: isLoginPage});
 
-        // previousLoginAttempt will always return true
-        // but is kept for debugging purposes and code legibility
-        sendResponse({previousDomain: domain, previousLoginAttempt: isLoginAttempt});
-
-        if (request.isLoginAttempt) {
+        if (request.isLoginAttempt || request.isLoginPage) {
             domain = request.domain;
             isLoginAttempt = request.isLoginAttempt;
+            isLoginPage = request.isLoginPage;            
         }
 });
 
 var domain = "";
 var isLoginAttempt;
+var isLoginPage;
