@@ -31,22 +31,34 @@ function saveLoginHistory() {
         chrome.storage.local.set({ times: times });
     });
 }
-
+/*
+ * Method:
+ * 1. Given the parsed domain is same for previous page and current page
+ * 2. If login attempt occurs at login page (TT), then create a new entry for login evaluation
+ * 3. If the page after a login attempt is not a login page and is not a login attempt (FF), then assume successful login
+ *      (note that multiple FF can occur in succession because login pages are redirected multiple times)
+ * 4. If the page after a login attempt is a login page and is not a login attempt (FT), then assume failed login
+ * Problem:
+ * There is no way to differentiate a successful login after multiple web page redirections and a logout
+ */
 function evaluateLoginAttempt(submitClicked, submitExists) {
-    chrome.runtime.sendMessage({domain: document.domain, isLoginAttempt: submitClicked}, function(response) {
+    var parsedDomain = parseDomain(document.domain);
+    chrome.runtime.sendMessage({domain: parsedDomain, isLoginAttempt: submitClicked, isLoginPage: submitExists}, function(response) {
 
-        console.log("EVALUATING LOGIN ATTEMPT");
         console.log("=========================================");
+        console.log("EVALUATING LOGIN ATTEMPT");
         console.log("Previous domain: " + response.previousDomain);
-        console.log("Current domain: " + document.domain);
+        console.log("Current domain: " + parsedDomain);
         console.log("Previous page was login attempt: " + response.previousLoginAttempt);
         console.log("Current page was login attempt: " + submitClicked);
+        console.log("Previous page was login page: " + response.previousLoginPage);
         console.log("Current page was login page: " + submitExists);
         console.log("=========================================");
 
-        // if submit button is clicked, store current status
-        if (submitClicked) {
+        if (parsedDomain == response.previousDomain && submitClicked && submitExists) {
+            console.log("+++++++++");
             console.log("UNCHECKED");
+            console.log("+++++++++");
             chrome.storage.local.get({attempts: []}, function (result) {
                 var attempts = result.attempts;
                 attempts.push("unchecked");
@@ -54,10 +66,11 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
             });
         }
 
-        // if submit button is not clicked, check if current status is success/failure
-        else {
-            if (response.previousDomain == document.domain && submitExists == true && response.previousLoginAttempt == true) {
+        if (parsedDomain == response.previousDomain && ((response.previousLoginAttempt && response.previousLoginPage) || (response.previousLoginAttempt && response.previousLoginPage)) && !submitClicked) {
+            if (submitExists) {
+                console.log("+++++++++");
                 console.log("FAILURE");
+                console.log("+++++++++");
                 chrome.storage.local.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
@@ -65,8 +78,10 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
                     chrome.storage.local.set({ attempts: attempts });
                 });
             }
-            else if (response.previousDomain == document.domain && submitExists == false && response.previousLoginAttempt == true) {
+            else {
+                console.log("+++++++++");
                 console.log("SUCCESS");
+                console.log("+++++++++");
                 chrome.storage.local.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
@@ -76,6 +91,21 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
             }
         }
     });
+}
+
+function parseDomain(url) {
+    var res = url.split(".");
+    if (res.length <= 2) {
+        return url;
+    }
+    else {
+        var i;
+        finalUrl = res[1];
+        for(i=2; i<res.length; i++) {
+            finalUrl = finalUrl + "." + res[i];
+        }
+        return finalUrl;
+    }
 }
 
 // check whether the page has a password element
@@ -90,9 +120,6 @@ if (password) {
     var sub = loginform.querySelector('input[type=submit]');        // do multiple if loops instead of OR condition
     if (!sub) { loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
     if (!sub) { loginform.querySelector('button[type=button]'); }   // input/button types
-
-    // NEED TO CHANGE THIS (FOR NOW IT IS AN ARBITRARY STRING)
-    var attempt = "unchecked";
 
     // if submit button is clicked call saveLoginHistory function
     sub.onclick = saveLoginHistory;
