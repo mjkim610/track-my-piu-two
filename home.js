@@ -43,9 +43,11 @@ function loadTable() {
 }
 
 function showResult() {
+	//if textbox is empty
     if (searchText.value == "") {
-        alert("SearchBox is Empty!");
-    }
+        alert("SearchBox is Empty!");}
+	
+	//if there is text to search
     else {
         rows = table.getElementsByTagName("tr");
         var count = 0;
@@ -106,6 +108,68 @@ function removeTable() {
     }
 }
 
+function changeSelect(){
+	var selectedIndex = dropdown.selectedIndex;
+	var rows = table.getElementsByTagName("tr");
+	
+	var time = new Date();
+	var year = time.getFullYear();//alert("year: "+year);
+	var month = time.getMonth()+1;//alert("month: "+month);
+	var date = time.getDate();//alert("date: "+date);
+	var todayT = dateToInt(year, month, date);
+	
+	var yesterday = time.setDate(time.getDate()-1);
+	
+	var yearY = yesterday.getFullYear(); 
+	var monthY = yesterday.getMonth()+1;
+	var dateY = yesterday.getDate();
+	yesterday = dateToInt(yearY, monthY, dateY);
+	alert(yesterday);
+	
+	switch(selectedIndex) {
+		
+		case 0://whole
+			alert(dropdown.options[0].value);
+			for (var i = 1; i < rows.length; i++){
+				var row = rows[i];
+				var timeC = row.getElementsByTagName("td")[3].innerHTML;
+				var yearC = getByIndex(timeC, 0, 3);
+				var monthC = getByIndex(timeC, 5, 6);
+				var dateC = getByIndex(timeC, 8, 9);
+				var then = dateToInt(yearC,monthC,dateC);
+				
+			}
+			break;
+		case 1://1day
+			alert(dropdown.options[1].value);
+			break;
+		case 2://2days
+			alert(dropdown.options[2].value);	
+			break;
+		case 3://1week
+			alert(dropdown.options[3].value);	
+			break;
+		case 4://1month
+			alert(dropdown.options[4].value);	
+			break;
+		case 5://1year
+			alert(dropdown.options[5].value);
+			break;
+		default:
+			break;
+	}
+}
+function getByIndex(str, start, finish){
+	var result = "";
+	for (var i = start; i < finish+1; i++){
+		result += str.charAt(i);}
+	return result;
+}
+function dateToInt(a, b, c){
+	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
+	
+}
+
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
@@ -113,11 +177,12 @@ var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
 var radioID = document.getElementById("radioID");
-var dropdown = document.getElementsByName("mydropdown");
+var dropdown = document.getElementById("select");
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
-
+searchButton.onclick = showResult;
+dropdown.onchange = changeSelect;
 
 
 
