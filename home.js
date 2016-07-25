@@ -49,13 +49,18 @@ function loadTable() {
 }
 
 function showResult() {
+	rows = table.getElementsByTagName("tr");
 	//if textbox is empty
     if (searchText.value == "") {
-        alert("SearchBox is Empty!");}
+        alert("Searchbox is Empty. \nResult will contain every URL/USername in destinated time section!");
+		for(var i = 1; i<rows.length; i++){
+			var row = rows[i];
+			row.getElementsByTagName("td")[5].innerHTML="T";
+		}show();		
+	}
 	
 	//if there is text to search
-    else {
-        rows = table.getElementsByTagName("tr");
+    else {        
         if (radioURL.checked) {
             alert("search by URL");
             for (var i = 1; i < rows.length; i++) {
