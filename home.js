@@ -52,7 +52,7 @@ function showResult() {
 	//if textbox is empty
     if (searchText.value == "") {
         alert("SearchBox is Empty!");}
-	
+
 	//if there is text to search
     else {
         rows = table.getElementsByTagName("tr");
@@ -116,32 +116,32 @@ function changeSelect(){
 	//if (tempTable!=null){
 		//table = tempTable;}
 	var rows = table.getElementsByTagName("tr");
-	
+
 	var time = new Date();
 	var today = dateToInt(time.getFullYear(), time.getMonth()+1, time.getDate());
 	//alert("today: "+today);
 
-	
-	
+
+
 	var twodayago = new Date();
 	twodayago.setDate(twodayago.getDate()-2);
 	twodayago = dateToInt(twodayago.getFullYear(), twodayago.getMonth()+1, twodayago.getDate());
 	//alert(twodayago);
-	
+
 	switch(selectedIndex) {
-		
+
 		case 0://whole
 			alert(dropdown.options[0].value)
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
-			
-			
+
+
 			break;
 		case 1://1day
-			alert(dropdown.options[1].value);			
-	
+			alert(dropdown.options[1].value);
+
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				if (row.style.display!='none'){
@@ -159,7 +159,7 @@ function changeSelect(){
 				}
 			}break;
 		case 2://2days
-			alert(dropdown.options[2].value);			
+			alert(dropdown.options[2].value);
 			var yesterday = new Date();
 			yesterday.setDate(yesterday.getDate() -1);
 			yesterday = dateToInt(yesterday.getFullYear(), yesterday.getMonth()+1, yesterday.getDate());
@@ -181,7 +181,7 @@ function changeSelect(){
 				}
 			}break;
 		case 3://1week
-			alert(dropdown.options[3].value);	
+			alert(dropdown.options[3].value);
 			var weekago = new Date();
 			weekago.setDate(weekago.getDate() -6);
 			weekago = dateToInt(weekago.getFullYear(), weekago.getMonth()+1, weekago.getDate());
@@ -203,7 +203,7 @@ function changeSelect(){
 				}
 			}break;
 		case 4://1month
-			alert(dropdown.options[4].value);	
+			alert(dropdown.options[4].value);
 			var monthago = new Date();
 			monthago.setMonth(monthago.getMonth() -1);
 			monthago = dateToInt(monthago.getFullYear(), monthago.getMonth()+1, monthago.getDate());
@@ -259,7 +259,7 @@ function getByIndex(str, start, finish){
 }
 function dateToInt(a, b, c){
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
-	
+
 }
 function show(){
 	rows = table.getElementsByTagName("tr");
@@ -277,9 +277,21 @@ function show(){
 	}countResult(count);
 }
 
+function postToDatabase() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://php-hollaholl.herokuapp.com/example.json", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            alert(xhr.responseText);
+        }
+    }
+    xhr.send();
+}
+
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
+var databaseButton = document.querySelector("button[id=postToDatabase]");
 var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
@@ -291,7 +303,4 @@ document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
-
-
-
-
+databaseButton.onclick = postToDatabase;
