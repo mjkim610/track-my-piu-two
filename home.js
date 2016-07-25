@@ -49,13 +49,18 @@ function loadTable() {
 }
 
 function showResult() {
+	rows = table.getElementsByTagName("tr");
 	//if textbox is empty
     if (searchText.value == "") {
-        alert("SearchBox is Empty!");}
+        alert("Searchbox is Empty. \nResult will contain every URL/USername in destinated time section!");
+		for(var i = 1; i<rows.length; i++){
+			var row = rows[i];
+			row.getElementsByTagName("td")[5].innerHTML="T";
+		}show();		
+	}
 	
 	//if there is text to search
-    else {
-        rows = table.getElementsByTagName("tr");
+    else {        
         if (radioURL.checked) {
             alert("search by URL");
             for (var i = 1; i < rows.length; i++) {
@@ -150,7 +155,7 @@ function changeSelect(){
 					var monthC = getByIndex(timeC, 5, 6);
 					var dateC = getByIndex(timeC, 8, 9);
 					var then = dateToInt(yearC,monthC,dateC);
-					//alert(then);
+					
 					if(then!=today){
 						row.getElementsByTagName("td")[6].innerHTML="F";
 					}else{
@@ -159,25 +164,23 @@ function changeSelect(){
 				}
 			}break;
 		case 2://2days
-			alert(dropdown.options[2].value);			
+			alert(dropdown.options[2].value);
 			var yesterday = new Date();
 			yesterday.setDate(yesterday.getDate() -1);
 			yesterday = dateToInt(yesterday.getFullYear(), yesterday.getMonth()+1, yesterday.getDate());
 			//alert(yesterday);
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
-				if (row.style.display!='none'){
-					var timeC = row.getElementsByTagName("td")[3].innerHTML;
-					var yearC = getByIndex(timeC, 0, 3);
-					var monthC = getByIndex(timeC, 5, 6);
-					var dateC = getByIndex(timeC, 8, 9);
-					var then = dateToInt(yearC,monthC,dateC);
-					//alert(then);
-					if((then!=yesterday)&&(then!=today)){
-						row.getElementsByTagName("td")[6].innerHTML="F";
-					}else{
-						row.getElementsByTagName("td")[6].innerHTML="T";
-					}
+				var timeC = row.getElementsByTagName("td")[3].innerHTML;
+				var yearC = getByIndex(timeC, 0, 3);
+				var monthC = getByIndex(timeC, 5, 6);
+				var dateC = getByIndex(timeC, 8, 9);
+				var then = dateToInt(yearC,monthC,dateC);
+			
+				if((then!=yesterday)&&(then!=today)){
+					row.getElementsByTagName("td")[6].innerHTML="F";
+				}else{
+					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
 			}break;
 		case 3://1week
@@ -188,19 +191,18 @@ function changeSelect(){
 			//alert(weekago);
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
-				if (row.style.display!='none'){
-					var timeC = row.getElementsByTagName("td")[3].innerHTML;
-					var yearC = getByIndex(timeC, 0, 3);
-					var monthC = getByIndex(timeC, 5, 6);
-					var dateC = getByIndex(timeC, 8, 9);
-					var then = dateToInt(yearC,monthC,dateC);
-					//alert(then);
-					if((then<weekago)||(then>today)){
-						row.getElementsByTagName("td")[6].innerHTML="F";
-					}else{
-						row.getElementsByTagName("td")[6].innerHTML="T";
-					}
+				var timeC = row.getElementsByTagName("td")[3].innerHTML;
+				var yearC = getByIndex(timeC, 0, 3);
+				var monthC = getByIndex(timeC, 5, 6);
+				var dateC = getByIndex(timeC, 8, 9);
+				var then = dateToInt(yearC,monthC,dateC);					
+				//alert(then);
+				if((then<weekago)||(then>today)){
+					row.getElementsByTagName("td")[6].innerHTML="F";
+				}else{
+					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
+			
 			}break;
 		case 4://1month
 			alert(dropdown.options[4].value);	
@@ -232,18 +234,16 @@ function changeSelect(){
 			//alert(yearago);
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
-				if (row.style.display!='none'){
-					var timeC = row.getElementsByTagName("td")[3].innerHTML;
-					var yearC = getByIndex(timeC, 0, 3);
-					var monthC = getByIndex(timeC, 5, 6);
-					var dateC = getByIndex(timeC, 8, 9);
-					var then = dateToInt(yearC,monthC,dateC);
-					//alert(then);
-					if((then<yearago)||(then>today)){
-						row.getElementsByTagName("td")[6].innerHTML="F";
-					}else{
-						row.getElementsByTagName("td")[6].innerHTML="T";
-					}
+				var timeC = row.getElementsByTagName("td")[3].innerHTML;
+				var yearC = getByIndex(timeC, 0, 3);
+				var monthC = getByIndex(timeC, 5, 6);
+				var dateC = getByIndex(timeC, 8, 9);
+				var then = dateToInt(yearC,monthC,dateC);
+				//alert(then);
+				if((then<yearago)||(then>today)){
+					row.getElementsByTagName("td")[6].innerHTML="F";
+				}else{
+					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
 			}break;
 		default:
