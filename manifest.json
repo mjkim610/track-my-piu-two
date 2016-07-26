@@ -28,6 +28,7 @@
         "tabs",
         "storage",
         "activeTab",
-        "https://ajax.googleapis.com/"
+        "https://ajax.googleapis.com/",
+        "https://php-hollaholl.herokuapp.com/"
     ]
 }
