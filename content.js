@@ -113,7 +113,7 @@ var password = document.querySelector('input[type=password]');
 
 if (password) {
     evaluateLoginAttempt(false, true);
-
+	
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
     var username = loginform.querySelector('input[type=text], input[type=email]');
