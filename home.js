@@ -41,9 +41,9 @@ function loadTable() {
             cellTime.innerHTML = timeConverted;
             cellAttempt.innerHTML = result.attempts[i];
 			cellSFlag.innerHTML = "T";
-			//cellSFlag.style.display='none';
+			cellSFlag.style.display='none';
 			cellTFlag.innerHTML = "T";
-			//cellTFlag.style.display='none';
+			cellTFlag.style.display='none';
         }
     });
 }

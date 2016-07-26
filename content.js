@@ -110,7 +110,7 @@ function parseDomain(url) {
 
 // check whether the page has a password element
 var password = document.querySelector('input[type=password]');
-
+alert(password.name);
 if (password) {
     evaluateLoginAttempt(false, true);
 
