@@ -17,7 +17,7 @@
 
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["content.js", "jquery-3.0.0.min.js", "aes.js"]
+        "js": ["content.js", "jquery-3.0.0.min.js", "aes.js", "pbkdf2.js"]
     }],
 
     "background": {
