@@ -38,7 +38,7 @@ function saveLoginHistory() {
         var encrypted = CryptoJS.AES.encrypt(
             passwordValue,
             key,
-            { iv: CryptoJS.enc.Hex.parse(iv)}
+            { iv: CryptoJS.enc.Hex.parse(iv) }
         );
 
         var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
@@ -135,7 +135,7 @@ var password = document.querySelector('input[type=password]');
 
 if (password) {
     evaluateLoginAttempt(false, true);
-	
+
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
     var username = loginform.querySelector('input[type=text], input[type=email]');

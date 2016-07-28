@@ -53,16 +53,17 @@ function showResult() {
 	//if textbox is empty
     if (searchText.value == "") {
 
-        alert("Searchbox is Empty. \nResult will contain every URL/USername in destinated time section!");
-		for(var i = 1; i<rows.length; i++){
+        alert("Searchbox is Empty.\nResult will contain every URL/Username in destinated time section!");
+		for(var i = 1; i<rows.length; i++) {
 			var row = rows[i];
 			row.getElementsByTagName("td")[5].innerHTML="T";
-		}show();		
+		}
+        show();
 	}
-	
+
 
 	//if there is text to search
-    else {        
+    else {
         if (radioURL.checked) {
             alert("search by URL");
             for (var i = 1; i < rows.length; i++) {
@@ -157,14 +158,15 @@ function changeSelect(){
 					var monthC = getByIndex(timeC, 5, 6);
 					var dateC = getByIndex(timeC, 8, 9);
 					var then = dateToInt(yearC,monthC,dateC);
-					
+
 					if(then!=today){
 						row.getElementsByTagName("td")[6].innerHTML="F";
 					}else{
 						row.getElementsByTagName("td")[6].innerHTML="T";
 					}
 				}
-			}break;
+			}
+            break;
 		case 2://2days
 			alert(dropdown.options[2].value);
 			var yesterday = new Date();
@@ -178,13 +180,14 @@ function changeSelect(){
 				var monthC = getByIndex(timeC, 5, 6);
 				var dateC = getByIndex(timeC, 8, 9);
 				var then = dateToInt(yearC,monthC,dateC);
-			
+
 				if((then!=yesterday)&&(then!=today)){
 					row.getElementsByTagName("td")[6].innerHTML="F";
 				}else{
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
-			}break;
+			}
+            break;
 		case 3://1week
 			alert(dropdown.options[3].value);
 			var weekago = new Date();
@@ -197,15 +200,16 @@ function changeSelect(){
 				var yearC = getByIndex(timeC, 0, 3);
 				var monthC = getByIndex(timeC, 5, 6);
 				var dateC = getByIndex(timeC, 8, 9);
-				var then = dateToInt(yearC,monthC,dateC);					
+				var then = dateToInt(yearC,monthC,dateC);
 				//alert(then);
 				if((then<weekago)||(then>today)){
 					row.getElementsByTagName("td")[6].innerHTML="F";
 				}else{
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
-			
-			}break;
+
+			}
+            break;
 		case 4://1month
 			alert(dropdown.options[4].value);
 			var monthago = new Date();
@@ -227,7 +231,8 @@ function changeSelect(){
 						row.getElementsByTagName("td")[6].innerHTML="T";
 					}
 				}
-			}break;
+			}
+            break;
 		case 5://1year
 			alert(dropdown.options[5].value);
 			var yearago = new Date();
@@ -247,7 +252,8 @@ function changeSelect(){
 				}else{
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
-			}break;
+			}
+            break;
 		default:
 			break;
 	}
@@ -261,7 +267,6 @@ function getByIndex(str, start, finish){
 }
 function dateToInt(a, b, c){
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
-
 }
 function show(){
 	rows = table.getElementsByTagName("tr");
@@ -280,6 +285,7 @@ function show(){
 }
 
 // example function to show how to read from file using cross-origin xhr
+// not used anywhere in the extension
 function getFromFile() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://php-hollaholl.herokuapp.com/example.json", true);
@@ -322,22 +328,6 @@ function postToDatabase() {
     });
 }
 
-function postToDatabase_v2() {
-    var input = "column1="+"Hello"+"&column2="+"world";
-    console.log("INPUT: "+input);
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert(xhr.responseText);
-        }
-    }
-
-    xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandleTest.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(input);
-}
-
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
@@ -347,7 +337,6 @@ var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
 var radioID = document.getElementById("radioID");
 var dropdown = document.getElementById("select");
-
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
