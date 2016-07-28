@@ -15,8 +15,7 @@ function loadTable() {
             cellPassword = row.insertCell(2);
             cellTime = row.insertCell(3);
             cellAttempt = row.insertCell(4);
-			cellSFlag = row.insertCell(5);
-			cellTFlag = row.insertCell(6);
+			cellFlag = row.insertCell(5);
 
             // format time variable into readable format
             timeConverted = new Date(result.times[i]);
@@ -40,10 +39,10 @@ function loadTable() {
             cellPassword.innerHTML = result.passwords[i];
             cellTime.innerHTML = timeConverted;
             cellAttempt.innerHTML = result.attempts[i];
-			cellSFlag.innerHTML = "T";
-			cellSFlag.style.display='none';
-			cellTFlag.innerHTML = "T";
-			cellTFlag.style.display='none';
+			var flag = new Array{search:true, time:true};
+			cellFlag.innerHTML = flag;
+			cellFlag.style.display='none';
+			
         }
     });
 }
@@ -143,12 +142,9 @@ function changeSelect(){
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
-
-
 			break;
 		case 1://1day
 			alert(dropdown.options[1].value);
-
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				if (row.style.display!='none'){
@@ -338,6 +334,24 @@ function postToDatabase_v2() {
     xhr.send(input);
 }
 
+function find(){
+	var today = new Date();
+	var today = dateToInt(today.getFullYear(), today.getMonth()+1, today.getDate());
+	var rows = table.getElementsByTagName("tr");
+	for (var i = 1; i<rows.length; i++){
+		var row = rows[i];
+		var url = row.getElementsByTagName("td")[0];
+		var time = row.getElementsByTagName("td")[3].innerHTML;
+		var year = getByIndex(timeC, 0, 3);
+		var month = getByIndex(timeC, 5, 6);
+		var date = getByIndex(timeC, 8, 9);
+		var then = dateToInt(year,month,date);
+		
+		
+	}
+	
+}
+
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
@@ -347,6 +361,7 @@ var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
 var radioID = document.getElementById("radioID");
 var dropdown = document.getElementById("select");
+var urlarray = 
 
 
 document.body.onload = loadTable;
