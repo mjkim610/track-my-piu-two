@@ -15,16 +15,38 @@ function saveLoginHistory() {
         urls.push(document.domain);
         chrome.storage.local.set({ urls: urls });
     });
+
     chrome.storage.local.get({usernames: []}, function (result) {
         var usernames = result.usernames;
         usernames.push(usernameValue);
         chrome.storage.local.set({ usernames: usernames });
     });
+
     chrome.storage.local.get({passwords: []}, function (result) {
+        // do not store passphrase, salt, and iv in the code itself!
         var passwords = result.passwords;
-        passwords.push("" + CryptoJS.AES.encrypt(passwordValue, "passphrase")); // use arbitrary key for now
+        var passphrase = "allyourpasswordarebelongtous";
+        var salt = "saltnpepper";
+        var iv = 4;
+
+        var key = CryptoJS.PBKDF2(
+            passphrase,
+            CryptoJS.enc.Hex.parse(salt),
+            { keySize: this.keySize, iterations: this.iterationCount }
+        );
+
+        var encrypted = CryptoJS.AES.encrypt(
+            passwordValue,
+            key,
+            { iv: CryptoJS.enc.Hex.parse(iv) }
+        );
+
+        var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+
+        passwords.push(ciphertext);
         chrome.storage.local.set({ passwords: passwords });
     });
+
     chrome.storage.local.get({times: []}, function (result) {
         var times = result.times;
         times.push(new Date().toString());
@@ -113,7 +135,7 @@ var password = document.querySelector('input[type=password]');
 
 if (password) {
     evaluateLoginAttempt(false, true);
-	
+
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
     var username = loginform.querySelector('input[type=text], input[type=email]');
