@@ -25,20 +25,20 @@ function saveLoginHistory() {
     chrome.storage.local.get({passwords: []}, function (result) {
         // do not store passphrase, salt, and iv in the code itself!
         var passwords = result.passwords;
-        var passphrase = "allyourpasswordarebelongtous";
+        var passphrase = "allyourpasswordarebelongtous"+document.domain;
         var salt = "saltnpepper";
-        var iv = 4;
+        var iv = "teHL337H4x0r";
 
         var key = CryptoJS.PBKDF2(
             passphrase,
-            CryptoJS.enc.Hex.parse(salt),
-            { keySize: this.keySize, iterations: this.iterationCount }
+            CryptoJS.enc.Utf8.parse(salt),
+            { keySize: 512/32, iterations: 100 }
         );
 
         var encrypted = CryptoJS.AES.encrypt(
             passwordValue,
             key,
-            { iv: CryptoJS.enc.Hex.parse(iv) }
+            { iv: CryptoJS.enc.Utf8.parse(iv) }
         );
 
         var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
