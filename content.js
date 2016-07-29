@@ -130,6 +130,21 @@ function parseDomain(url) {
     }
 }
 
+
+function setBadgeValue() {
+    chrome.storage.local.get({urls: []}, function (result) {
+        // count the number of entries
+        var entryCount = result.urls.length;
+        console.log("EntryCount: "+entryCount);
+        chrome.runtime.sendMessage({badgeValue: entryCount}, function(response) {
+            console.log("Response: "+response.badgeValue);
+        });
+    });
+}
+
+// update badge value
+setBadgeValue();
+
 // check whether the page has a password element
 var password = document.querySelector('input[type=password]');
 
@@ -143,8 +158,8 @@ if (password) {
     if (!sub) { loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
     if (!sub) { loginform.querySelector('button[type=button]'); }   // input/button types
 
-    // if submit button is clicked call saveLoginHistory function
-    sub.onclick = saveLoginHistory;
+    // if submit button is clicked call saveLoginHistory and setBadgeValue function
+    sub.onclick = saveLoginHistory();
 }
 else {
     evaluateLoginAttempt(false, false);

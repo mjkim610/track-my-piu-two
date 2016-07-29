@@ -32,15 +32,28 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        sendResponse({previousDomain: domain, previousLoginAttempt: isLoginAttempt, previousLoginPage: isLoginPage});
+        if (!request.badgeValue) {
+            sendResponse({previousDomain: domain, previousLoginAttempt: isLoginAttempt, previousLoginPage: isLoginPage});
 
-        if (request.isLoginAttempt || request.isLoginPage) {
-            domain = request.domain;
-            isLoginAttempt = request.isLoginAttempt;
-            isLoginPage = request.isLoginPage;            
+            if (request.isLoginAttempt || request.isLoginPage) {
+                domain = request.domain;
+                isLoginAttempt = request.isLoginAttempt;
+                isLoginPage = request.isLoginPage;
+            }
+        }
+        else {
+            badgeValue = request.badgeValue;
+            chrome.browserAction.setBadgeBackgroundColor({ color: [0, 128, 128, 100] });
+            chrome.browserAction.setBadgeText({ text: badgeValue.toString() });
+
+            sendResponse({badgeValue: badgeValue});
         }
 });
 
 var domain = "";
 var isLoginAttempt;
 var isLoginPage;
+var badgeValue = 0;
+
+chrome.browserAction.setBadgeBackgroundColor({ color: [0, 128, 128, 100] });
+chrome.browserAction.setBadgeText({ text: badgeValue.toString() });
