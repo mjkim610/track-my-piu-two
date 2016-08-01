@@ -17,7 +17,6 @@ function focusOrCreateTab(url) {
                 }
             }
         }
-
         if (!pageIsOpen) {
             chrome.tabs.create({ "url": url, "selected": true });
         }
@@ -54,6 +53,3 @@ var domain = "";
 var isLoginAttempt;
 var isLoginPage;
 var badgeValue = 0;
-
-chrome.browserAction.setBadgeBackgroundColor({ color: [0, 128, 128, 100] });
-chrome.browserAction.setBadgeText({ text: badgeValue.toString() });
