@@ -67,7 +67,7 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
     var parsedDomain = parseDomain(document.domain);
     chrome.runtime.sendMessage({domain: parsedDomain, isLoginAttempt: submitClicked, isLoginPage: submitExists}, function(response) {
 
-        console.log("=========================================");
+        console.log("======================================");
         console.log("EVALUATING LOGIN ATTEMPT");
         console.log("Previous domain: " + response.previousDomain);
         console.log("Current domain: " + parsedDomain);
@@ -75,7 +75,7 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
         console.log("Current page was login attempt: " + submitClicked);
         console.log("Previous page was login page: " + response.previousLoginPage);
         console.log("Current page was login page: " + submitExists);
-        console.log("=========================================");
+        console.log("======================================");
 
         if (parsedDomain == response.previousDomain && submitClicked && submitExists) {
             console.log("+++++++++");
@@ -131,12 +131,26 @@ function parseDomain(url) {
 }
 
 function setBadgeValue() {
-    chrome.storage.local.get({urls: []}, function (result) {
+    chrome.storage.local.get({times: []}, function (result) {
         // count the number of entries
-        var entryCount = result.urls.length;
-        console.log("EntryCount: "+entryCount);
-        chrome.runtime.sendMessage({badgeValue: entryCount}, function(response) {
-            console.log("Response: "+response.badgeValue);
+        var entryCount = result.times.length;
+        var entryTime;
+        var currentTime = new Date();
+
+        var warningCount = 0;
+
+        for (i=0; i<entryCount; i++) {
+            entryTime = new Date(result.times[i]);
+            entryTime.setDate(entryTime.getDate()+90);
+
+            if (entryTime < currentTime) {
+                console.log("A 3-month old entry has been found!");
+                warningCount++;
+            }
+        }
+
+        chrome.runtime.sendMessage({badgeValue: warningCount}, function(response) {
+            console.log("warningCount: "+response.badgeValue);
         });
     });
 }
