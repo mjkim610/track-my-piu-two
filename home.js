@@ -1,6 +1,6 @@
 function loadTable() {
 
-    chrome.storage.local.get(null, function (result) {
+    chrome.storage.sync.get(null, function (result) {
         // count the number of entries
         entryCount = result.urls.length;
 
@@ -60,8 +60,6 @@ function showResult() {
 		}
         show();
 	}
-
-
 	//if there is text to search
     else {
         if (radioURL.checked) {
@@ -108,7 +106,7 @@ function countResult(count) {
 }
 
 function resetHistory() {
-    chrome.storage.local.clear();
+    chrome.storage.sync.clear();
     alert("History cleared!");
     chrome.tabs.reload();
 }
@@ -128,8 +126,6 @@ function changeSelect(){
 	var time = new Date();
 	var today = dateToInt(time.getFullYear(), time.getMonth()+1, time.getDate());
 	//alert("today: "+today);
-
-
 
 	var twodayago = new Date();
 	twodayago.setDate(twodayago.getDate()-2);
@@ -259,15 +255,18 @@ function changeSelect(){
 	}
 	show();
 }
+
 function getByIndex(str, start, finish){
 	var result = "";
 	for (var i = start; i < finish+1; i++){
 		result += str.charAt(i);}
 	return result;
 }
+
 function dateToInt(a, b, c){
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
 }
+
 function show(){
 	rows = table.getElementsByTagName("tr");
 	var count = 0;
@@ -298,7 +297,7 @@ function getFromFile() {
 }
 
 function postToDatabase() {
-    chrome.storage.local.get(null, function (result) {
+    chrome.storage.sync.get(null, function (result) {
         // count the number of entries
         entryCount = result.urls.length;
 

@@ -10,19 +10,19 @@ function saveLoginHistory() {
     var passwordValue = password.value;
 
     // store each variable into corresponding arrays
-    chrome.storage.local.get({urls: []}, function (result) {
+    chrome.storage.sync.get({urls: []}, function (result) {
         var urls = result.urls;
         urls.push(document.domain);
-        chrome.storage.local.set({ urls: urls });
+        chrome.storage.sync.set({ urls: urls });
     });
 
-    chrome.storage.local.get({usernames: []}, function (result) {
+    chrome.storage.sync.get({usernames: []}, function (result) {
         var usernames = result.usernames;
         usernames.push(usernameValue);
-        chrome.storage.local.set({ usernames: usernames });
+        chrome.storage.sync.set({ usernames: usernames });
     });
 
-    chrome.storage.local.get({passwords: []}, function (result) {
+    chrome.storage.sync.get({passwords: []}, function (result) {
         // do not store passphrase, salt, and iv in the code itself!
         var passwords = result.passwords;
         var passphrase = "allyourpasswordarebelongtous"+document.domain;
@@ -44,13 +44,13 @@ function saveLoginHistory() {
         var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
 
         passwords.push(ciphertext);
-        chrome.storage.local.set({ passwords: passwords });
+        chrome.storage.sync.set({ passwords: passwords });
     });
 
-    chrome.storage.local.get({times: []}, function (result) {
+    chrome.storage.sync.get({times: []}, function (result) {
         var times = result.times;
         times.push(new Date().toString());
-        chrome.storage.local.set({ times: times });
+        chrome.storage.sync.set({ times: times });
     });
 }
 /*
@@ -81,34 +81,34 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
             console.log("+++++++++");
             console.log("UNCHECKED");
             console.log("+++++++++");
-            chrome.storage.local.get({attempts: []}, function (result) {
+            chrome.storage.sync.get({attempts: []}, function (result) {
                 var attempts = result.attempts;
                 attempts.push("unchecked");
-                chrome.storage.local.set({ attempts: attempts });
+                chrome.storage.sync.set({ attempts: attempts });
             });
         }
 
-        if (parsedDomain == response.previousDomain && ((response.previousLoginAttempt && response.previousLoginPage) || (response.previousLoginAttempt && response.previousLoginPage)) && !submitClicked) {
+        if (parsedDomain == response.previousDomain && (response.previousLoginAttempt && response.previousLoginPage) && !submitClicked) {
             if (submitExists) {
                 console.log("+++++++++");
                 console.log("FAILURE");
                 console.log("+++++++++");
-                chrome.storage.local.get({attempts: []}, function (result) {
+                chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
                     attempts.push("failure");
-                    chrome.storage.local.set({ attempts: attempts });
+                    chrome.storage.sync.set({ attempts: attempts });
                 });
             }
-            else {
+            else if (response.previousLoginAttempt) {
                 console.log("+++++++++");
                 console.log("SUCCESS");
                 console.log("+++++++++");
-                chrome.storage.local.get({attempts: []}, function (result) {
+                chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
                     attempts.push("success");
-                    chrome.storage.local.set({ attempts: attempts });
+                    chrome.storage.sync.set({ attempts: attempts });
                 });
             }
         }
@@ -131,7 +131,7 @@ function parseDomain(url) {
 }
 
 function setBadgeValue() {
-    chrome.storage.local.get({times: []}, function (result) {
+    chrome.storage.sync.get({times: []}, function (result) {
         // count the number of entries
         var entryCount = result.times.length;
         var entryTime;
@@ -174,4 +174,10 @@ if (password) {
 else {
     evaluateLoginAttempt(false, false);
 }
+
+/*
+var logout = $("a[class*='logout']");
+console.log(logout.attr('class'));
+*/
+
 setBadgeValue();

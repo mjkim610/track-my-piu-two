@@ -52,4 +52,4 @@ chrome.runtime.onMessage.addListener(
 var domain = "";
 var isLoginAttempt;
 var isLoginPage;
-var badgeValue = 0;
+var badgeValue;
