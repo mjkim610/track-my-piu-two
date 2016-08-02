@@ -105,12 +105,6 @@ function countResult(count) {
     }
 }
 
-function resetHistory() {
-    chrome.storage.sync.clear();
-    alert("History cleared!");
-    chrome.tabs.reload();
-}
-
 function removeTable() {
     for (i = 0; i < entryCount; i++) {
         row = table.deleteRow(entryCount - i);
@@ -296,6 +290,12 @@ function getFromFile() {
     xhr.send();
 }
 
+function resetHistory() {
+    chrome.storage.sync.clear();
+    alert("History cleared!");
+    chrome.tabs.reload();
+}
+
 function postToDatabase() {
     chrome.storage.sync.get(null, function (result) {
         // count the number of entries
@@ -324,13 +324,13 @@ function postToDatabase() {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(input);
         }
+        resetHistory();
     });
 }
 
 var entryCount;
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
-var databaseButton = document.querySelector("button[id=postToDatabase]");
 var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
 var radioURL = document.getElementById("radioURL");
@@ -338,7 +338,6 @@ var radioID = document.getElementById("radioID");
 var dropdown = document.getElementById("select");
 
 document.body.onload = loadTable;
-resetButton.onclick = resetHistory;
+resetButton.onclick = postToDatabase;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
-databaseButton.onclick = postToDatabase;
