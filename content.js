@@ -206,4 +206,5 @@ var logout = $("a[class*='logout']");
 console.log(logout.attr('class'));
 */
 
+
 setBadgeValue();
