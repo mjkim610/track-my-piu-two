@@ -9,49 +9,75 @@ function saveLoginHistory() {
     var usernameValue = username.value;
     var passwordValue = password.value;
 
+
     // store each variable into corresponding arrays
-    chrome.storage.local.get({urls: []}, function (result) {
+    chrome.storage.sync.get({urls: []}, function (result) {
         var urls = result.urls;
         urls.push(document.domain);
-        chrome.storage.local.set({ urls: urls });
+        chrome.storage.sync.set({ urls: urls });
     });
 
-    chrome.storage.local.get({usernames: []}, function (result) {
+    chrome.storage.sync.get({usernames: []}, function (result) {
         var usernames = result.usernames;
         usernames.push(usernameValue);
-        chrome.storage.local.set({ usernames: usernames });
+        chrome.storage.sync.set({ usernames: usernames });
     });
 
-    chrome.storage.local.get({passwords: []}, function (result) {
+    chrome.storage.sync.get({passwords: []}, function (result) {
         // do not store passphrase, salt, and iv in the code itself!
         var passwords = result.passwords;
-        var passphrase = "allyourpasswordarebelongtous";
+        var passphrase = "allyourpasswordarebelongtous"+document.domain;
         var salt = "saltnpepper";
-        var iv = 4;
+        var iv = "teHL337H4x0r";
 
         var key = CryptoJS.PBKDF2(
             passphrase,
-            CryptoJS.enc.Hex.parse(salt),
-            { keySize: this.keySize, iterations: this.iterationCount }
+            CryptoJS.enc.Utf8.parse(salt),
+            { keySize: 512/32, iterations: 100 }
         );
 
         var encrypted = CryptoJS.AES.encrypt(
             passwordValue,
             key,
-            { iv: CryptoJS.enc.Hex.parse(iv) }
+            { iv: CryptoJS.enc.Utf8.parse(iv) }
         );
 
         var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
 
         passwords.push(ciphertext);
-        chrome.storage.local.set({ passwords: passwords });
+        chrome.storage.sync.set({ passwords: passwords });
     });
 
-    chrome.storage.local.get({times: []}, function (result) {
+    chrome.storage.sync.get({times: []}, function (result) {
         var times = result.times;
         times.push(new Date().toString());
-        chrome.storage.local.set({ times: times });
+        chrome.storage.sync.set({ times: times });
     });
+	time=new Date().toString();
+	
+	chrome.storage.sync.get({arrays:[]}, function (result){
+		var arrays = result.arrays;
+		var array = {url:document.domain, username:usernameValue, time:time};
+		alert(arrays.length);
+		alert(arrays);
+		alert(JSON.stringify(arrays));
+		alert(JSON.stringify(array));
+		if(arrays.length!=0){		
+			for(var i = 0; i<arrays.length; i++){
+				if(JSON.parse(arrays[i]).url==document.domain){
+					alert("updating");
+					arrays.splice(i,1);
+				}
+			}			
+			alert("pushing new");
+			arrays.push(JSON.stringify(array));
+			chrome.storage.sync.set({arrays:arrays});
+		}else{
+			alert("it is empty");
+			arrays.push(JSON.stringify(array));
+			chrome.storage.sync.set({arrays:arrays});
+		}alert(JSON.stringify(arrays));
+	});
 }
 /*
  * Method:
@@ -67,7 +93,7 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
     var parsedDomain = parseDomain(document.domain);
     chrome.runtime.sendMessage({domain: parsedDomain, isLoginAttempt: submitClicked, isLoginPage: submitExists}, function(response) {
 
-        console.log("=========================================");
+        console.log("======================================");
         console.log("EVALUATING LOGIN ATTEMPT");
         console.log("Previous domain: " + response.previousDomain);
         console.log("Current domain: " + parsedDomain);
@@ -75,40 +101,40 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
         console.log("Current page was login attempt: " + submitClicked);
         console.log("Previous page was login page: " + response.previousLoginPage);
         console.log("Current page was login page: " + submitExists);
-        console.log("=========================================");
+        console.log("======================================");
 
         if (parsedDomain == response.previousDomain && submitClicked && submitExists) {
             console.log("+++++++++");
             console.log("UNCHECKED");
             console.log("+++++++++");
-            chrome.storage.local.get({attempts: []}, function (result) {
+            chrome.storage.sync.get({attempts: []}, function (result) {
                 var attempts = result.attempts;
                 attempts.push("unchecked");
-                chrome.storage.local.set({ attempts: attempts });
+                chrome.storage.sync.set({ attempts: attempts });
             });
         }
 
-        if (parsedDomain == response.previousDomain && ((response.previousLoginAttempt && response.previousLoginPage) || (response.previousLoginAttempt && response.previousLoginPage)) && !submitClicked) {
+        if (parsedDomain == response.previousDomain && (response.previousLoginAttempt && response.previousLoginPage) && !submitClicked) {
             if (submitExists) {
                 console.log("+++++++++");
                 console.log("FAILURE");
                 console.log("+++++++++");
-                chrome.storage.local.get({attempts: []}, function (result) {
+                chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
                     attempts.push("failure");
-                    chrome.storage.local.set({ attempts: attempts });
+                    chrome.storage.sync.set({ attempts: attempts });
                 });
             }
-            else {
+            else if (response.previousLoginAttempt) {
                 console.log("+++++++++");
                 console.log("SUCCESS");
                 console.log("+++++++++");
-                chrome.storage.local.get({attempts: []}, function (result) {
+                chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     attempts.pop();
                     attempts.push("success");
-                    chrome.storage.local.set({ attempts: attempts });
+                    chrome.storage.sync.set({ attempts: attempts });
                 });
             }
         }
@@ -130,6 +156,31 @@ function parseDomain(url) {
     }
 }
 
+function setBadgeValue() {
+    chrome.storage.sync.get({times: []}, function (result) {
+        // count the number of entries
+        var entryCount = result.times.length;
+        var entryTime;
+        var currentTime = new Date();
+
+        var warningCount = 0;
+
+        for (i=0; i<entryCount; i++) {
+            entryTime = new Date(result.times[i]);
+            entryTime.setDate(entryTime.getDate()+90);
+
+            if (entryTime < currentTime) {
+                console.log("A 3-month old entry has been found!");
+                warningCount++;
+            }
+        }
+
+        chrome.runtime.sendMessage({badgeValue: warningCount}, function(response) {
+            console.log("warningCount: "+response.badgeValue);
+        });
+    });
+}
+
 // check whether the page has a password element
 var password = document.querySelector('input[type=password]');
 
@@ -149,3 +200,10 @@ if (password) {
 else {
     evaluateLoginAttempt(false, false);
 }
+
+/*
+var logout = $("a[class*='logout']");
+console.log(logout.attr('class'));
+*/
+
+setBadgeValue();

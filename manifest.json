@@ -3,7 +3,7 @@
 
     "name": "Track My PIU 2",
     "description": "Tracks user PIU (Personally Identifiable User Information)",
-    "version": "1.0",
+    "version": "0.1.0.3",
 
     "icons": {
         "16": "onyx.png",
@@ -17,7 +17,7 @@
 
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["content.js", "jquery-3.0.0.min.js", "aes.js", "pbkdf2.js"]
+        "js": ["jquery-3.0.0.min.js", "aes.js", "pbkdf2.js", "content.js"]
     }],
 
     "background": {

