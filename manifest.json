@@ -6,22 +6,22 @@
     "version": "0.1.0.3",
 
     "icons": {
-        "16": "onyx.png",
-        "48": "onyx.png",
-        "128": "onyx.png"
+        "16": "image/onyx.png",
+        "48": "image/onyx.png",
+        "128": "image/onyx.png"
     },
 
     "browser_action": {
-        "default_icon": "onyx.png"
+        "default_icon": "image/onyx.png"
     },
 
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["jquery-3.0.0.min.js", "aes.js", "pbkdf2.js", "content.js"]
+        "js": ["javascript/external/jquery-3.0.0.min.js", "javascript/external/aes.js", "javascript/external/pbkdf2.js", "javascript/content.js"]
     }],
 
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["javascript/background.js"]
     },
 
     "permissions": [

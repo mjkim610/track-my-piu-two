@@ -175,11 +175,11 @@ function setBadgeValue() {
 
         for (i=0; i<entryArray.length; i++) {
             entryTime = new Date((JSON.parse(entryArray[i])).time);
-            entryTime.setDate(entryTime.getDate()+90);
+            entryTime.setDate(entryTime.getDate()+100);
 
 //          if (entryTime < currentTime) {
             if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
-                console.log("A 3-month old entry has been found!");
+                console.log("A 100-days-old entry has been found!");
                 warningCount++;
             }
         }
@@ -214,6 +214,5 @@ else {
 var logout = $("a[class*='logout']");
 console.log(logout.attr('class'));
 */
-
 
 setBadgeValue();
