@@ -1,5 +1,3 @@
-// data is saved in 000003.txt at
-// C:\Users\mjkim\AppData\Local\Google\Chrome\User Data\Default\Local Extension Settings\cbkfgfglpekbddlcdfmjciampadpagbp
 function saveLoginHistory() {
 
     evaluateLoginAttempt(true, true);
