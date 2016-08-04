@@ -2,7 +2,7 @@ function loadTable() {
 
     chrome.storage.sync.get(null, function (result) {
         // count the number of entries
-        entryCount = result.urls.length;
+        var entryCount = result.urls.length;
 
         var row, cellUrl, cellUsername, cellPassword, cellTime,
             timeConverted, yyyy, mm, dd, hh, minute, ss, ampm;
