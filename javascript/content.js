@@ -9,7 +9,6 @@ function saveLoginHistory() {
     var usernameValue = username.value;
     var passwordValue = password.value;
 
-
     // store each variable into corresponding arrays
     chrome.storage.sync.get({urls: []}, function (result) {
         var urls = result.urls;
@@ -60,30 +59,25 @@ function saveLoginHistory() {
 	chrome.storage.sync.get({ arrays: [] }, function(result) {
 	    var arrays = result.arrays;
 	    var array = { url: document.domain, username: usernameValue, time: time };
-	    alert(arrays.length);
-	    alert(arrays);
-	    alert(JSON.stringify(arrays));
-	    alert(JSON.stringify(array));
 	    if (arrays.length != 0) {
 	        for (var i = 0; i < arrays.length; i++) {
 	            if (JSON.parse(arrays[i]).url == document.domain) {
-	                alert("updating");
+	                console.log("Updating array");
 	                arrays.splice(i, 1);
 	            }
 	        }
-	        alert("pushing new");
+	        console.log("Pushing to array");
 	        arrays.push(JSON.stringify(array));
 	        chrome.storage.sync.set({
 	            arrays: arrays
 	        });
 	    } else {
-	        alert("it is empty");
+	        console.log("Array is empty");
 	        arrays.push(JSON.stringify(array));
 	        chrome.storage.sync.set({
 	            arrays: arrays
 	        });
 	    }
-	    alert(JSON.stringify(arrays));
 	});
 }
 
