@@ -165,19 +165,20 @@ function parseDomain(url) {
 }
 
 function setBadgeValue() {
-    chrome.storage.sync.get({times: []}, function (result) {
+    chrome.storage.sync.get({arrays: []}, function (result) {
         // count the number of entries
-        var entryCount = result.times.length;
+        var entryArray = result.arrays;
         var entryTime;
         var currentTime = new Date();
 
         var warningCount = 0;
 
-        for (i=0; i<entryCount; i++) {
-            entryTime = new Date(result.times[i]);
+        for (i=0; i<entryArray.length; i++) {
+            entryTime = new Date((JSON.parse(entryArray[i])).time);
             entryTime.setDate(entryTime.getDate()+90);
 
-            if (entryTime < currentTime) {
+//          if (entryTime < currentTime) {
+            if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
                 console.log("A 3-month old entry has been found!");
                 warningCount++;
             }

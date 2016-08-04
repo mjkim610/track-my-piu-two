@@ -4,8 +4,7 @@ function loadTable() {
 		var arrays = result.arrays;
         var entryCount = arrays.length;
 
-        var row, cellUrl, cellUsername, cellPassword, cellTime,
-            timeConverted, yyyy, mm, dd, hh, minute, ss, ampm;
+        var row, cellUrl, cellUsername, cellTime;
 
         // insert each entry into a new row
         for (i=0; i<entryCount; i++) {
