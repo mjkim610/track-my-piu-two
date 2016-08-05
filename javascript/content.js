@@ -181,10 +181,6 @@ function setBadgeValue() {
     });
 }
 
-// check whether the page has a password element
-var password = document.querySelector('input[type=password]');
-
-
 /* https://en.wikipedia.org/wiki/List_of_most_popular_websites
  *
  * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
@@ -194,17 +190,25 @@ var password = document.querySelector('input[type=password]');
  * sites that do not work: twitter(multiple password fields), yes24(img wrapped in anchor tag),
  * 11st.co.kr(username not captured) (doesn't work on lastpass as well)
  */
- if (password) {
+
+// check whether the page has a password element
+var password = document.querySelector('input[type=password]');
+// if there is no password field, it is not a login page
+if (password) {
     evaluateLoginAttempt(false, true);
 
+    // find the loginform element from the password element
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
     if (!loginform) { loginform = password.closest("div"); }
 
+    // find the username element from the loginform element
     var username = loginform.querySelector('input[type=text], input[type=email]');
-    var submitButton = loginform.querySelector('input[type=submit]');                       // do multiple if loops instead of OR condition
-    if (!submitButton) { submitButton = loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
-    if (!submitButton) { submitButton = loginform.querySelector('button[type=button]'); }   // input/button types
+
+    // find the submit button element from the loginform element
+    var submitButton = loginform.querySelector('input[type=submit]');
+    if (!submitButton) { submitButton = loginform.querySelector('button[type=submit]'); }
+    if (!submitButton) { submitButton = loginform.querySelector('button[type=button]'); }
     if (!submitButton) { submitButton = loginform.querySelector('input[type=button]'); }
     if (!submitButton) { submitButton = loginform.querySelector('input[type=image]'); }
 
@@ -218,7 +222,6 @@ var password = document.querySelector('input[type=password]');
     else { console.log("Username: " + username.placeholder); }
     if (submitButton.id) { console.log("Submit Button: " + submitButton.id); }
     else { console.log("Submit Button: " + submitButton.className); }
-
     console.log("======================================");
 
     // if submit button is clicked call saveLoginHistory function
