@@ -103,6 +103,7 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
         console.log("Current page was login page: " + submitExists);
         console.log("======================================");
 
+        // ISSUE: check if the number of elements in the rest of the info is same as the success/failure array!
         if (parsedDomain == response.previousDomain && submitClicked && submitExists) {
             console.log("+++++++++");
             console.log("UNCHECKED");
@@ -183,10 +184,17 @@ function setBadgeValue() {
 // check whether the page has a password element
 var password = document.querySelector('input[type=password]');
 
-// https://en.wikipedia.org/wiki/List_of_most_popular_websites
-// sites that work: google, facebook, amazon, login.live.com, wordpress, github, naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox
-// sites that do not work: twitter, reddit, yes24, heroku, gmarket, 11st.co.kr, c9.io
-if (password) {
+
+/* https://en.wikipedia.org/wiki/List_of_most_popular_websites
+ *
+ * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
+ * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
+ * gmarket.co.kr, c9.io
+ *
+ * sites that do not work: twitter(multiple password fields), yes24(img wrapped in anchor tag),
+ * 11st.co.kr(username not captured) (doesn't work on lastpass as well)
+ */
+ if (password) {
     evaluateLoginAttempt(false, true);
 
     var loginform = password.form;
@@ -197,15 +205,20 @@ if (password) {
     var submitButton = loginform.querySelector('input[type=submit]');                       // do multiple if loops instead of OR condition
     if (!submitButton) { submitButton = loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
     if (!submitButton) { submitButton = loginform.querySelector('button[type=button]'); }   // input/button types
+    if (!submitButton) { submitButton = loginform.querySelector('input[type=button]'); }
+    if (!submitButton) { submitButton = loginform.querySelector('input[type=image]'); }
 
     console.log("======================================");
     console.log("EVALUATING CURRENT PAGE");
     if (password.id) { console.log("Password: " + password.id); }
     else { console.log("Password: " + password.placeholder); }
-    if (loginform.name) {console.log("Login Form: " + loginform.name); }
+    if (loginform.name) { console.log("Login Form: " + loginform.name); }
+    else { console.log("Login Form: " + loginform.className); }
     if (username.id) { console.log("Username: " + username.id); }
     else { console.log("Username: " + username.placeholder); }
-    console.log("Submit Button: " + submitButton.id);
+    if (submitButton.id) { console.log("Submit Button: " + submitButton.id); }
+    else { console.log("Submit Button: " + submitButton.className); }
+
     console.log("======================================");
 
     // if submit button is clicked call saveLoginHistory function

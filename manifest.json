@@ -3,7 +3,7 @@
 
     "name": "Track My PIU 2",
     "description": "Tracks user PIU (Personally Identifiable User Information)",
-    "version": "0.1.0.4",
+    "version": "0.1.0.5",
 
     "icons": {
         "16": "image/onyx.png",
