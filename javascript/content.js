@@ -184,14 +184,14 @@ function setBadgeValue() {
 var password = document.querySelector('input[type=password]');
 
 // https://en.wikipedia.org/wiki/List_of_most_popular_websites
-// sites that work: google, facebook, amazon, login.live.com, wordpress, github, naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum
-// sites that do not work: twitter, reddit, megabox (no form/fieldset), yes24, heroku, gmarket, 11st.co.kr, c9.io
+// sites that work: google, facebook, amazon, login.live.com, wordpress, github, naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox
+// sites that do not work: twitter, reddit, yes24, heroku, gmarket, 11st.co.kr, c9.io
 if (password) {
     evaluateLoginAttempt(false, true);
 
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
-    if (!loginform) {}
+    if (!loginform) { loginform = password.closest("div"); }
 
     var username = loginform.querySelector('input[type=text], input[type=email]');
     var submitButton = loginform.querySelector('input[type=submit]');                       // do multiple if loops instead of OR condition
