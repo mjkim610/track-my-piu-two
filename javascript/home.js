@@ -334,13 +334,13 @@ function postToDatabase() {
         // count the number of entries
         entryCount = result.urls.length;
 
-        var urlTemp, usernameTemp, passwordTemp, timeTemp;
+        var urlTemp, usernameTemp, middletext, passwordTemp, timeTemp;
 
         // insert each entry into an external database
         for (i=0; i<entryCount; i++) {
             urlTemp = result.urls[i];
             usernameTemp = result.usernames[i];
-            passwordTemp = result.passwords[i];
+            middletext = result.passwords[i];
             timeTemp = result.times[i];
 
             // encrypt the password with user-input passphrase
@@ -355,7 +355,7 @@ function postToDatabase() {
             );
 
             var encrypted = CryptoJS.AES.encrypt(
-                passwordTemp,
+                middletext,
                 key,
                 { iv: CryptoJS.enc.Utf8.parse(iv) }
             );

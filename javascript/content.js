@@ -171,13 +171,11 @@ function setBadgeValue() {
 
 //          if (entryTime < currentTime) {
             if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
-                console.log("A 100-days-old entry has been found!");
                 warningCount++;
             }
         }
 
         chrome.runtime.sendMessage({badgeValue: warningCount}, function(response) {
-            console.log("warningCount: "+response.badgeValue);
         });
     });
 }
@@ -185,18 +183,33 @@ function setBadgeValue() {
 // check whether the page has a password element
 var password = document.querySelector('input[type=password]');
 
+// https://en.wikipedia.org/wiki/List_of_most_popular_websites
+// sites that work: google, facebook, amazon, login.live.com, wordpress, github, naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum
+// sites that do not work: twitter, reddit, megabox (no form/fieldset), yes24, heroku, gmarket, 11st.co.kr, c9.io
 if (password) {
     evaluateLoginAttempt(false, true);
 
     var loginform = password.form;
     if (!loginform) { loginform = password.closest("fieldset"); }
+    if (!loginform) {}
+
     var username = loginform.querySelector('input[type=text], input[type=email]');
-    var sub = loginform.querySelector('input[type=submit]');        // do multiple if loops instead of OR condition
-    if (!sub) { loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
-    if (!sub) { loginform.querySelector('button[type=button]'); }   // input/button types
+    var submitButton = loginform.querySelector('input[type=submit]');                       // do multiple if loops instead of OR condition
+    if (!submitButton) { submitButton = loginform.querySelector('button[type=submit]'); }   // in order to give priority to different
+    if (!submitButton) { submitButton = loginform.querySelector('button[type=button]'); }   // input/button types
+
+    console.log("======================================");
+    console.log("EVALUATING CURRENT PAGE");
+    if (password.id) { console.log("Password: " + password.id); }
+    else { console.log("Password: " + password.placeholder); }
+    if (loginform.name) {console.log("Login Form: " + loginform.name); }
+    if (username.id) { console.log("Username: " + username.id); }
+    else { console.log("Username: " + username.placeholder); }
+    console.log("Submit Button: " + submitButton.id);
+    console.log("======================================");
 
     // if submit button is clicked call saveLoginHistory function
-    sub.onclick = saveLoginHistory;
+    submitButton.onclick = saveLoginHistory;
 }
 else {
     evaluateLoginAttempt(false, false);
