@@ -117,14 +117,22 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
 
         if (parsedDomain == response.previousDomain && (response.previousLoginAttempt && response.previousLoginPage) && !submitClicked) {
             if (submitExists) {
-                console.log("+++++++++");
-                console.log("FAILURE");
-                console.log("+++++++++");
                 chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
-                    attempts.pop();
-                    attempts.push("failure");
-                    chrome.storage.sync.set({ attempts: attempts });
+                    var attemptPop = attempts.pop();
+                    if (attemptPop=="unchecked") {
+                        console.log("+++++++++");
+                        console.log("FAILURE");
+                        console.log("+++++++++");
+                        attempts.push("failure");
+                        chrome.storage.sync.set({ attempts: attempts });
+                    } else if (attemptPop=="success") {
+                        console.log("+++++++++");
+                        console.log("LOGOUT");
+                        console.log("+++++++++");
+                        attempts.push("success");
+                        chrome.storage.sync.set({ attempts: attempts });
+                    }
                 });
             }
             else if (response.previousLoginAttempt) {
