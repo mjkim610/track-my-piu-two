@@ -103,14 +103,28 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
         console.log("Current page was login page: " + submitExists);
         console.log("======================================");
 
-        // ISSUE: check if the number of elements in the rest of the info is same as the success/failure array!
+        /*
+        // function to compare the number of elements in the url/attempt arrays
+        // remove once done with debugging process
+        chrome.storage.sync.get({ urls: [] }, function(result) {
+            var urlCount = result.urls.length;
+            chrome.storage.sync.get({ attempts: [] }, function(result) {
+                var attemptCount = result.attempts.length;
+
+                console.log("urlCount: "+urlCount);
+                console.log("attemptCount: "+attemptCount);
+            })
+        });
+        */
+
         if (parsedDomain == response.previousDomain && submitClicked && submitExists) {
             console.log("+++++++++");
             console.log("UNCHECKED");
             console.log("+++++++++");
             chrome.storage.sync.get({attempts: []}, function (result) {
                 var attempts = result.attempts;
-                attempts.push("unchecked");
+                // assume failure
+                attempts.push("failure");
                 chrome.storage.sync.set({ attempts: attempts });
             });
         }
@@ -120,13 +134,16 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
                 chrome.storage.sync.get({attempts: []}, function (result) {
                     var attempts = result.attempts;
                     var attemptPop = attempts.pop();
-                    if (attemptPop=="unchecked") {
+                    // if previous state is failure or unchecked, current state is failure
+                    if (attemptPop=="failure") {
                         console.log("+++++++++");
                         console.log("FAILURE");
                         console.log("+++++++++");
                         attempts.push("failure");
                         chrome.storage.sync.set({ attempts: attempts });
-                    } else if (attemptPop=="success") {
+                    }
+                    // if previous state is success, current state is logout
+                    else if (attemptPop=="success") {
                         console.log("+++++++++");
                         console.log("LOGOUT");
                         console.log("+++++++++");
@@ -135,6 +152,7 @@ function evaluateLoginAttempt(submitClicked, submitExists) {
                     }
                 });
             }
+            // if conditions are met, change (assumed) failure into success
             else if (response.previousLoginAttempt) {
                 console.log("+++++++++");
                 console.log("SUCCESS");
@@ -193,10 +211,13 @@ function setBadgeValue() {
  *
  * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
  * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
- * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice.com(?)
+ * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com
  *
- * sites that do not work: twitter(multiple password fields), yes24(img wrapped in anchor tag),
- * 11st.co.kr(username not captured) (doesn't work on lastpass either)
+ * sites that do not work:
+ * twitter(multiple password fields),
+ * yes24(img wrapped in anchor tag),
+ * 11st.co.kr(username not captured) (doesn't work on lastpass either),
+ * wemakeprice.com(page is not reloaded upon wrong id/password)
  */
 
 // check whether the page has a password element
