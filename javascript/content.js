@@ -211,13 +211,12 @@ function setBadgeValue() {
  *
  * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
  * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
- * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com
+ * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice
  *
  * sites that do not work:
  * twitter(multiple password fields),
  * yes24(img wrapped in anchor tag),
  * 11st.co.kr(username not captured) (doesn't work on lastpass either),
- * wemakeprice.com(page is not reloaded upon wrong id/password)
  */
 
 // check whether the page has a password element
