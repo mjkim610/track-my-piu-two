@@ -21,7 +21,7 @@ function saveLoginHistory() {
     });
 
     chrome.storage.sync.get({passwords: []}, function (result) {
-        // do not store passphrase, salt, and iv in the code itself!
+        // obfuscation
         var passwords = result.passwords;
         var passphrase = "allyourpasswordarebelongtous"+document.domain;
         var salt = "saltnpepper";
