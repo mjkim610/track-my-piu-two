@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Eagle",
-    "description": "Eagle logs websites/web services that the user subscribes to, and prompts deletion of websites/web services which user does not user any more.",
+    "description": "Eagle logs and prompts deletion of websites/web services that the user subscribes to.",
     "version": "0.1.0.6",
 
     "icons": {
