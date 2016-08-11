@@ -196,8 +196,8 @@ function setBadgeValue() {
             entryTime = new Date((JSON.parse(entryArray[i])).time);
             entryTime.setDate(entryTime.getDate()+100);
 
-//          if (entryTime < currentTime) {
-            if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
+            if (entryTime < currentTime) {
+            // if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
                 warningCount++;
             }
         }
@@ -211,12 +211,13 @@ function setBadgeValue() {
  *
  * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
  * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
- * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice
+ * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice, yahoo, kakao
  *
  * sites that do not work:
  * twitter(multiple password fields),
  * yes24(img wrapped in anchor tag),
  * 11st.co.kr(username not captured) (doesn't work on lastpass either),
+ * stackoverflow (login via google/facebook works, but other method has 2 input b)
  */
 
 // check whether the page has a password element

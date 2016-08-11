@@ -3,7 +3,7 @@
 
     "name": "Eagle",
     "description": "Eagle logs and prompts deletion of websites/web services that the user subscribes to.",
-    "version": "0.1.0.6",
+    "version": "1.0.1",
 
     "icons": {
         "16": "image/icon-small-transparent.png",
