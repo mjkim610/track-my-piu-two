@@ -14,10 +14,14 @@ function loadTable() {
             cellTime = row.insertCell(2);
 
 			array = JSON.parse(arrays[i]);
+            var entryTime = array.time.setDate(array.time.getDate()+100);
+            var currentTime = new Date();
 
-            cellUrl.innerHTML = array.url;
-            cellUsername.innerHTML = array.username;
-            cellTime.innerHTML = array.time;
+            if (entryTime > currentTime) {
+                cellUrl.innerHTML = array.url;
+                cellUsername.innerHTML = array.username;
+                cellTime.innerHTML = array.time;
+            }
         }
     });
 }

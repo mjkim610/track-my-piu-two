@@ -1,0 +1,22 @@
+{
+    "name": {
+        "message": "Eagle: PII Tracker",
+        "description": "The extension name."
+    },
+    "short_name": {
+        "message": "Eagle",
+        "description": "The extension short name."
+    },
+    "author": {
+        "message": "The Eagle Team",
+        "description": "The extension author."
+    },
+    "description": {
+        "message": "Eagle logs and prompts deletion of personally identifiable information (PII) in websites/web services that the user subscribes to.",
+        "description": "The extension description."
+    },
+    "detailed_description": {
+        "message": "Eagle logs the user's personally identifiable information (PII) in websites and web services. Eagle keeps track of websites and web services that the user subscribes to and allows quick access to the information. Eagle also prompts the user to deal with websites and web services which the user is no longer active in to prevent PII theft.",
+        "description": "The extension detailed description used in the developer dashboard."
+    }
+}

@@ -1,18 +1,21 @@
 {
     "manifest_version": 2,
 
-    "name": "Track My PIU 2",
-    "description": "Tracks user PIU (Personally Identifiable User Information)",
-    "version": "0.1.0.6",
+    "name": "__MSG_name__",
+    "short_name": "__MSG_short_name__",
+    "author": "__MSG_author__",
+    "description": "__MSG_description__",
+    "version": "1.0.1.2",
+    "default_locale": "en",
 
     "icons": {
-        "16": "image/onyx.png",
-        "48": "image/onyx.png",
-        "128": "image/onyx.png"
+        "16": "image/icon-small-transparent.png",
+        "48": "image/icon-small-transparent.png",
+        "128": "image/icon-small-transparent.png"
     },
 
     "browser_action": {
-        "default_icon": "image/onyx.png"
+        "default_icon": "image/icon-small-transparent-cropped.png"
     },
 
     "content_scripts": [{
@@ -28,7 +31,6 @@
         "tabs",
         "storage",
         "activeTab",
-        "https://ajax.googleapis.com/",
-        "https://php-hollaholl.herokuapp.com/"
+        "https://ajax.googleapis.com/"
     ]
 }

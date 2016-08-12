@@ -21,7 +21,7 @@ function saveLoginHistory() {
     });
 
     chrome.storage.sync.get({passwords: []}, function (result) {
-        // do not store passphrase, salt, and iv in the code itself!
+        // obfuscation
         var passwords = result.passwords;
         var passphrase = "allyourpasswordarebelongtous"+document.domain;
         var salt = "saltnpepper";
@@ -196,8 +196,8 @@ function setBadgeValue() {
             entryTime = new Date((JSON.parse(entryArray[i])).time);
             entryTime.setDate(entryTime.getDate()+100);
 
-//          if (entryTime < currentTime) {
-            if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
+            if (entryTime < currentTime) {
+            // if (entryTime < currentTime || entryTime >= currentTime) { // this shows every instance (using this temporarily for testing)
                 warningCount++;
             }
         }
@@ -207,61 +207,71 @@ function setBadgeValue() {
     });
 }
 
-/* https://en.wikipedia.org/wiki/List_of_most_popular_websites
- *
- * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
- * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
- * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice
- *
- * sites that do not work:
- * twitter(multiple password fields),
- * yes24(img wrapped in anchor tag),
- * 11st.co.kr(username not captured) (doesn't work on lastpass either),
- */
+function getPassword() {
+    var password = document.querySelector('input[type=password]');
+    return password;
+}
 
-// check whether the page has a password element
-var password = document.querySelector('input[type=password]');
-// if there is no password field, it is not a login page
-if (password) {
-    evaluateLoginAttempt(false, true);
+function getForm(password) {
+    var loginForm = password.form;
+    if (!loginForm) { loginForm = password.closest("fieldset"); }
+    if (!loginForm) { loginForm = password.closest("div"); }
+    return loginForm;
+}
 
-    // find the loginform element from the password element
-    var loginform = password.form;
-    if (!loginform) { loginform = password.closest("fieldset"); }
-    if (!loginform) { loginform = password.closest("div"); }
+function getUsername(loginForm) {
+    var username = loginForm.querySelector('input[type=text], input[type=email]');
+    return username;
+}
 
-    // find the username element from the loginform element
-    var username = loginform.querySelector('input[type=text], input[type=email]');
+function getSubmitButton(loginForm) {
+    var submitButton = loginForm.querySelector('input[type=submit]');
+    if (!submitButton) { submitButton = loginForm.querySelector('button[type=submit]'); }
+    if (!submitButton) { submitButton = loginForm.querySelector('button[type=button]'); }
+    if (!submitButton) { submitButton = loginForm.querySelector('input[type=button]'); }
+    if (!submitButton) { submitButton = loginForm.querySelector('input[type=image]'); }
+    return submitButton;
+}
 
-    // find the submit button element from the loginform element
-    var submitButton = loginform.querySelector('input[type=submit]');
-    if (!submitButton) { submitButton = loginform.querySelector('button[type=submit]'); }
-    if (!submitButton) { submitButton = loginform.querySelector('button[type=button]'); }
-    if (!submitButton) { submitButton = loginform.querySelector('input[type=button]'); }
-    if (!submitButton) { submitButton = loginform.querySelector('input[type=image]'); }
-
+function pageEvaluationLog(password, loginForm, username, submitButton) {
     console.log("======================================");
     console.log("EVALUATING CURRENT PAGE");
     if (password.id) { console.log("Password: " + password.id); }
     else { console.log("Password: " + password.placeholder); }
-    if (loginform.name) { console.log("Login Form: " + loginform.name); }
-    else { console.log("Login Form: " + loginform.className); }
+    if (loginForm.name) { console.log("Login Form: " + loginForm.name); }
+    else { console.log("Login Form: " + loginForm.className); }
     if (username.id) { console.log("Username: " + username.id); }
     else { console.log("Username: " + username.placeholder); }
     if (submitButton.id) { console.log("Submit Button: " + submitButton.id); }
     else { console.log("Submit Button: " + submitButton.className); }
     console.log("======================================");
-
-    // if submit button is clicked call saveLoginHistory function
-    submitButton.onclick = saveLoginHistory;
 }
-else {
+
+/* https://en.wikipedia.org/wiki/List_of_most_popular_websites
+ *
+ * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
+ * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
+ * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice, yahoo, kakao
+ *
+ * sites that do not work:
+ * twitter(multiple password fields),
+ * yes24(img wrapped in anchor tag),
+ * 11st.co.kr(username not captured) (doesn't work on lastpass either),
+ * stackoverflow (login via google/facebook works, but other method has 2 input b)
+ */
+
+var password = getPassword();
+if (password) {
+    var loginForm = getForm(password);
+    var username = getUsername(loginForm);
+    var submitButton = getSubmitButton(loginForm);
+
+    pageEvaluationLog(password, loginForm, username, submitButton);
+    evaluateLoginAttempt(false, true);
+
+    submitButton.onclick = saveLoginHistory;
+} else {
     evaluateLoginAttempt(false, false);
 }
-
-/*
-var logout = $("a[class*='logout']");
-console.log(logout.attr('class'));
-*/
 
 setBadgeValue();

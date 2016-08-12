@@ -1,5 +1,24 @@
-function loadTable() {
+function formatTime(timeRaw) {
+    var timeConverted = new Date(timeRaw);
 
+    yyyy = timeConverted.getFullYear();
+    mm = timeConverted.getMonth()+1;
+    if (mm < 10) { mm = '0' + mm; }
+    dd = timeConverted.getDate();
+    if (dd < 10) { dd = '0' + dd; }
+    hh = timeConverted.getHours();
+    if (hh >= 12) { hh = hh - 12; ampm = 'PM'; }
+    else { ampm = 'AM' };
+    minute = timeConverted.getMinutes();
+    if (minute < 10) { minute = '0' + minute; }
+    ss = timeConverted.getSeconds();
+    if (ss < 10) { ss = '0' + ss; }
+
+    timeConverted = yyyy + '/' + mm + '/' + dd + ' ' + hh + ':' + minute + ':' + ss + ' ' + ampm;
+    return timeConverted;
+}
+
+function loadTable() {
     chrome.storage.sync.get(null, function (result) {
         // count the number of entries
         var entryCount = result.urls.length;
@@ -18,22 +37,7 @@ function loadTable() {
 			cellSFlag = row.insertCell(5);
 			cellTFlag = row.insertCell(6);
 
-            // format time variable into readable format
-            timeConverted = new Date(result.times[i]);
-            yyyy = timeConverted.getFullYear();
-            mm = timeConverted.getMonth()+1;
-            if (mm < 10) { mm = '0' + mm; }
-            dd = timeConverted.getDate();
-            if (dd < 10) { dd = '0' + dd; }
-            hh = timeConverted.getHours();
-            if (hh >= 12) { hh = hh - 12; ampm = 'PM'; }
-            else { ampm = 'AM' };
-            minute = timeConverted.getMinutes();
-            if (minute < 10) { minute = '0' + minute; }
-            ss = timeConverted.getSeconds();
-            if (ss < 10) { ss = '0' + ss; }
-
-            timeConverted = yyyy + '/' + mm + '/' + dd + ' ' + hh + ':' + minute + ':' + ss + ' ' + ampm;
+            timeConverted = formatTime(result.times[i]);
 
             cellUrl.innerHTML = result.urls[i];
             cellUsername.innerHTML = result.usernames[i];
@@ -113,45 +117,36 @@ function removeTable() {
 
 function changeSelect(){
 	var selectedIndex = dropdown.selectedIndex;
-	//if (tempTable!=null){
-		//table = tempTable;}
 	var rows = table.getElementsByTagName("tr");
-
 	var time = new Date();
 	var today = dateToInt(time.getFullYear(), time.getMonth()+1, time.getDate());
-	//alert("today: "+today);
 
 	var twodayago = new Date();
 	twodayago.setDate(twodayago.getDate()-2);
 	twodayago = dateToInt(twodayago.getFullYear(), twodayago.getMonth()+1, twodayago.getDate());
-	//alert(twodayago);
 
 	switch(selectedIndex) {
-
 		case 0://whole
 			alert(dropdown.options[0].value)
-			for (var i = 1; i < rows.length; i++){
+			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
-
-
 			break;
 		case 1://1day
 			alert(dropdown.options[1].value);
-
-			for (var i = 1; i < rows.length; i++){
+			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
-				if (row.style.display!='none'){
+				if (row.style.display!='none') {
 					var timeC = row.getElementsByTagName("td")[3].innerHTML;
 					var yearC = getByIndex(timeC, 0, 3);
 					var monthC = getByIndex(timeC, 5, 6);
 					var dateC = getByIndex(timeC, 8, 9);
 					var then = dateToInt(yearC,monthC,dateC);
 
-					if(then!=today){
+					if (then!=today) {
 						row.getElementsByTagName("td")[6].innerHTML="F";
-					}else{
+					} else {
 						row.getElementsByTagName("td")[6].innerHTML="T";
 					}
 				}
@@ -162,7 +157,6 @@ function changeSelect(){
 			var yesterday = new Date();
 			yesterday.setDate(yesterday.getDate() -1);
 			yesterday = dateToInt(yesterday.getFullYear(), yesterday.getMonth()+1, yesterday.getDate());
-			//alert(yesterday);
 			for (var i = 1; i < rows.length; i++){
 				var row = rows[i];
 				var timeC = row.getElementsByTagName("td")[3].innerHTML;
@@ -171,9 +165,9 @@ function changeSelect(){
 				var dateC = getByIndex(timeC, 8, 9);
 				var then = dateToInt(yearC,monthC,dateC);
 
-				if((then!=yesterday)&&(then!=today)){
+				if((then!=yesterday)&&(then!=today)) {
 					row.getElementsByTagName("td")[6].innerHTML="F";
-				}else{
+				} else {
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
 			}
@@ -184,20 +178,19 @@ function changeSelect(){
 			weekago.setDate(weekago.getDate() -6);
 			weekago = dateToInt(weekago.getFullYear(), weekago.getMonth()+1, weekago.getDate());
 			//alert(weekago);
-			for (var i = 1; i < rows.length; i++){
+			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				var timeC = row.getElementsByTagName("td")[3].innerHTML;
 				var yearC = getByIndex(timeC, 0, 3);
 				var monthC = getByIndex(timeC, 5, 6);
 				var dateC = getByIndex(timeC, 8, 9);
 				var then = dateToInt(yearC,monthC,dateC);
-				//alert(then);
-				if((then<weekago)||(then>today)){
+
+				if((then<weekago)||(then>today)) {
 					row.getElementsByTagName("td")[6].innerHTML="F";
-				}else{
+				} else {
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
-
 			}
             break;
 		case 4://1month
@@ -205,19 +198,19 @@ function changeSelect(){
 			var monthago = new Date();
 			monthago.setMonth(monthago.getMonth() -1);
 			monthago = dateToInt(monthago.getFullYear(), monthago.getMonth()+1, monthago.getDate());
-			//alert(monthago);
-			for (var i = 1; i < rows.length; i++){
+
+			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
-				if (row.style.display!='none'){
+				if (row.style.display!='none') {
 					var timeC = row.getElementsByTagName("td")[3].innerHTML;
 					var yearC = getByIndex(timeC, 0, 3);
 					var monthC = getByIndex(timeC, 5, 6);
 					var dateC = getByIndex(timeC, 8, 9);
 					var then = dateToInt(yearC,monthC,dateC);
-					//alert(then);
-					if((then<monthago)||(then>today)){
+
+					if((then<monthago)||(then>today)) {
 						row.getElementsByTagName("td")[6].innerHTML="F";
-					}else{
+					} else {
 						row.getElementsByTagName("td")[6].innerHTML="T";
 					}
 				}
@@ -229,17 +222,17 @@ function changeSelect(){
 			yearago.setFullYear(yearago.getFullYear() -1);
 			yearago = dateToInt(yearago.getFullYear(), yearago.getMonth()+1, yearago.getDate());
 			//alert(yearago);
-			for (var i = 1; i < rows.length; i++){
+			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				var timeC = row.getElementsByTagName("td")[3].innerHTML;
 				var yearC = getByIndex(timeC, 0, 3);
 				var monthC = getByIndex(timeC, 5, 6);
 				var dateC = getByIndex(timeC, 8, 9);
 				var then = dateToInt(yearC,monthC,dateC);
-				//alert(then);
-				if((then<yearago)||(then>today)){
+
+				if((then<yearago)||(then>today)) {
 					row.getElementsByTagName("td")[6].innerHTML="F";
-				}else{
+				} else {
 					row.getElementsByTagName("td")[6].innerHTML="T";
 				}
 			}
@@ -250,44 +243,31 @@ function changeSelect(){
 	show();
 }
 
-function getByIndex(str, start, finish){
+function getByIndex(str, start, finish) {
 	var result = "";
-	for (var i = start; i < finish+1; i++){
+	for (var i = start; i < finish+1; i++) {
 		result += str.charAt(i);}
 	return result;
 }
 
-function dateToInt(a, b, c){
+function dateToInt(a, b, c) {
 	return parseInt(a)*10000+parseInt(b)*100+parseInt(c);
 }
 
-function show(){
+function show() {
 	rows = table.getElementsByTagName("tr");
 	var count = 0;
-	for (var i = 1; i<rows.length; i++){
+	for (var i = 1; i<rows.length; i++) {
 		var row = rows[i];
 		var SFlag = row.getElementsByTagName("td")[5].innerHTML;
 		var TFlag = row.getElementsByTagName("td")[6].innerHTML;
-		if((SFlag=="T")&&(TFlag=="T")){
+		if((SFlag=="T")&&(TFlag=="T")) {
 			row.style.display='';
 			count++;
-		}else{
+		} else {
 			row.style.display='none';
 		}
-	}countResult(count);
-}
-
-// example function to show how to read from file using cross-origin xhr
-// not used anywhere in the extension
-function getFromFile() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://php-hollaholl.herokuapp.com/example.json", true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            alert(xhr.responseText);
-        }
-    }
-    xhr.send();
+	} countResult(count);
 }
 
 function resetHistory() {
@@ -296,62 +276,7 @@ function resetHistory() {
     chrome.tabs.reload();
 }
 
-function postToDatabase() {
-    chrome.storage.sync.get(null, function (result) {
-        // count the number of entries
-        entryCount = result.urls.length;
-
-        var urlTemp, usernameTemp, middletext, passwordTemp, timeTemp;
-
-        // insert each entry into an external database
-        for (i=0; i<entryCount; i++) {
-            urlTemp = result.urls[i];
-            usernameTemp = result.usernames[i];
-            middletext = result.passwords[i];
-            timeTemp = result.times[i];
-
-            // encrypt the password with user-input passphrase
-            var passphrase = encryptionText.value;
-            var salt = "saltnpepper";
-            var iv = "teHL337H4x0r";
-
-            var key = CryptoJS.PBKDF2(
-                passphrase,
-                CryptoJS.enc.Utf8.parse(salt),
-                { keySize: 512/32, iterations: 100 }
-            );
-
-            var encrypted = CryptoJS.AES.encrypt(
-                middletext,
-                key,
-                { iv: CryptoJS.enc.Utf8.parse(iv) }
-            );
-
-            var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
-
-            // replace '+' symbol with "%2B"
-            passwordTemp = ciphertext.replace("+", "%2B");
-
-            var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
-            console.log("INPUT: "+input);
-            var xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log(xhr.responseText);
-                }
-            }
-
-            xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send(input);
-        }
-        resetHistory();
-    });
-}
-
 var entryCount;
-var encryptionText = document.getElementById("encryptionText");
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
 var searchText = document.getElementById("searchText");
@@ -361,6 +286,6 @@ var radioID = document.getElementById("radioID");
 var dropdown = document.getElementById("select");
 
 document.body.onload = loadTable;
-resetButton.onclick = postToDatabase;
+resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
