@@ -276,6 +276,28 @@ function resetHistory() {
     chrome.tabs.reload();
 }
 
+function encrypt(middletext) {
+    // encrypt the password with user-input passphrase
+    var passphrase = encryptionText.value;
+    var salt = "saltnpepper";
+    var iv = "teHL337H4x0r";
+
+    var key = CryptoJS.PBKDF2(
+        passphrase,
+        CryptoJS.enc.Utf8.parse(salt),
+        { keySize: 512/32, iterations: 100 }
+    );
+
+    var encrypted = CryptoJS.AES.encrypt(
+        middletext,
+        key,
+        { iv: CryptoJS.enc.Utf8.parse(iv) }
+    );
+
+    var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+    return ciphertext;
+}
+
 function postToDatabase() {
     chrome.storage.sync.get(null, function (result) {
         // count the number of entries
@@ -290,27 +312,12 @@ function postToDatabase() {
             middletext = result.passwords[i];
             timeTemp = result.times[i];
 
-            // encrypt the password with user-input passphrase
-            var passphrase = encryptionText.value;
-            var salt = "saltnpepper";
-            var iv = "teHL337H4x0r";
-
-            var key = CryptoJS.PBKDF2(
-                passphrase,
-                CryptoJS.enc.Utf8.parse(salt),
-                { keySize: 512/32, iterations: 100 }
-            );
-
-            var encrypted = CryptoJS.AES.encrypt(
-                middletext,
-                key,
-                { iv: CryptoJS.enc.Utf8.parse(iv) }
-            );
-
-            var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+            passwordTemp = encrypt(middletext);
 
             // replace '+' symbol with "%2B"
-            passwordTemp = ciphertext.replace("+", "%2B");
+            while (passwordTemp.includes("+")) {
+                passwordTemp = passwordTemp.replace("+", "%2B");
+            }
 
             var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
             console.log("INPUT: "+input);
@@ -322,48 +329,10 @@ function postToDatabase() {
                 }
             }
 
-            for (i=0; i<entryCount; i++) {
-                urlTemp = result.urls[i];
-                usernameTemp = result.usernames[i];
-                middletext = result.passwords[i];
-                timeTemp = result.times[i];
+            xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(input);
 
-                // encrypt the password with user-input passphrase
-                var passphrase = encryptionText.value;
-                var salt = "saltnpepper";
-                var iv = "teHL337H4x0r";
-
-                var key = CryptoJS.PBKDF2(
-                    passphrase,
-                    CryptoJS.enc.Utf8.parse(salt),
-                    { keySize: 512/32, iterations: 100 }
-                );
-
-                var encrypted = CryptoJS.AES.encrypt(
-                    middletext,
-                    key,
-                    { iv: CryptoJS.enc.Utf8.parse(iv) }
-                );
-
-                var ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
-
-                // replace '+' symbol with "%2B"
-                passwordTemp = ciphertext.replace("+", "%2B");
-
-                var input = "url="+urlTemp+"&username="+usernameTemp+"&password="+passwordTemp+"&time="+timeTemp;
-                console.log("INPUT: "+input);
-                var xhr = new XMLHttpRequest();
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        console.log(xhr.responseText);
-                    }
-                }
-
-                xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.send(input);
-            }
             resetHistory();
         }
     });
