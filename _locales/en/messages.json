@@ -14,5 +14,9 @@
     "description": {
         "message": "Eagle logs and prompts deletion of websites/web services that the user subscribes to.",
         "description": "The extension description."
-    }
+    },
+    "detailed_description": {
+        "message": "Eagle logs detailed information of user behavior in logging into websites and web services. Eagle keeps track of websites and web services that the user subscribes to and organizes the information in a neat table. Eagle also prompts the user to deal with websites and web services where the user isn't active.",
+        "description": "The extension detailed description used in the developer dashboard."
+    },
 }
