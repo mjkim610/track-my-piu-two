@@ -1,6 +1,6 @@
 {
     "name": {
-        "message": "Eagle: SPI Tracker",
+        "message": "Eagle: PII Tracker",
         "description": "The extension name."
     },
     "short_name": {
@@ -12,11 +12,11 @@
         "description": "The extension author."
     },
     "description": {
-        "message": "Eagle logs and prompts deletion of websites/web services that the user subscribes to.",
+        "message": "Eagle logs and prompts deletion of personally identifiable information (PII) in websites/web services that the user subscribes to.",
         "description": "The extension description."
     },
     "detailed_description": {
-        "message": "Eagle logs detailed information of user behavior in logging into websites and web services. Eagle keeps track of websites and web services that the user subscribes to and organizes the information in a neat table. Eagle also prompts the user to deal with websites and web services where the user isn't active.",
+        "message": "Eagle logs personally identifiable information (PII) of user behavior in logging into websites and web services. Eagle keeps track of websites and web services that the user subscribes to and allows quick access to the information. Eagle also prompts the user to deal with websites and web services where the user isn't active to prevent PII theft.",
         "description": "The extension detailed description used in the developer dashboard."
     }
 }
