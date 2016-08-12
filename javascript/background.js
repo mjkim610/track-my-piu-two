@@ -25,7 +25,7 @@ function focusOrCreateTab(url) {
 
 // if extension icon is clicked call the focusOrCreateTab function with the home_url parameter
 chrome.browserAction.onClicked.addListener(function(tab) {
-    var home_url = chrome.extension.getURL("home.html");
+    var home_url = chrome.extension.getURL("html/home.html");
     focusOrCreateTab(home_url);
 });
 
