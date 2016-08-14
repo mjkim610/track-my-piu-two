@@ -1,0 +1,22 @@
+{
+    "name": {
+        "message": "이글: 개인 식별 정보 추적기",
+        "description": "The extension name."
+    },
+    "short_name": {
+        "message": "이글",
+        "description": "The extension short name."
+    },
+    "author": {
+        "message": "이글 팀",
+        "description": "The extension author."
+    },
+    "description": {
+        "message": "이글은 사용자가 가입한 웹사이트와 웹 서비스의 개인 식별 정보 (PII)를 추적하고 관리합니다.",
+        "description": "The extension description."
+    },
+    "detailed_description": {
+        "message": "이글은 사용자가 가입한 웹사이트와 웹 서비스의 개인 식별 정보 (PII)를 추적합니다. 이글은 사용자가 가입한 웹사이트와 웹 서비스를 기록하고 정리해서 보여드립니다. 이글은 사용자가 더 이상 필요로 하지 않는 웹사이트와 웹 서비스에서 회원 탈퇴를 권고하여 사용자의 개인 식별 정보 도용을 방지합니다.",
+        "description": "The extension detailed description used in the developer dashboard."
+    }
+}
