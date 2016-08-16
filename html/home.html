@@ -8,7 +8,23 @@
 
 <body>
     <h1><a href="alert.html">Login Attempts List</a></h1>
-    <div id="search">
+
+
+    <div class="container" id="tableContainer">
+        <table id="loginInfoTable" cellpadding="3" cellspacing="0" width="100%">
+            <thead border="1">
+                <tr>
+                    <th>URL</th>
+                    <th>Username</th>
+                    <th>Password (Obfuscated)</th>
+                    <th>Time</th>
+                    <th>Success/Failure</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="container" id="search">
         <input type="text" id="searchText" name="searchText" />
         <button id="search">Search </button>
 
@@ -25,21 +41,11 @@
 			</select>
     </div>
 
-    <div id="tableContainer">
-        <table id="loginInfoTable" style ="width:100%">
-            <tr>
-                <th>URL</th>
-                <th>Username</th>
-                <th>Password (Obfuscated)</th>
-                <th>Time</th>
-                <th>Success/Failure</th>
-            </tr>
-        </table>
+    <div class="container" id="encryption">
+        <!-- input for encryption password -->
+        <input type="text" id="encryptionText" placeholder="Type in your encryption password" style="width:200px" />
+        <button id="reset">Reset Login History</button>
     </div>
-
-    <!-- input for encryption password -->
-    <input type="text" id="encryptionText" placeholder="Type in your encryption password" style="width:200px" />
-    <button id="reset">Reset Login History</button>
 
     <script src="/javascript/external/jquery-3.0.0.min.js" charset="UTF-8"></script>
     <script src="/javascript/external/aes.js" charset="UTF-8"></script>
