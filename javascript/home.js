@@ -332,9 +332,8 @@ function postToDatabase() {
             xhr.open("POST", "https://php-hollaholl.herokuapp.com/dbhandle.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(input);
-
-            resetHistory();
         }
+        resetHistory();
     });
 }
 
