@@ -124,3 +124,17 @@ h2 a {
         display: none;
     }
 }
+
+.button {
+    background-color: #FB667A;
+    border: none;
+    color: white;
+    padding-top: 0.45ex;
+    padding-bottom: 0.45ex;
+    padding-left: 1ex;
+    padding-right: 1ex;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
