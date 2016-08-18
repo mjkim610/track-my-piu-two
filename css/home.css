@@ -1,12 +1,12 @@
 /*
     Modified From:
 
-	Side Navigation Menu V2, RWD
-	===================
-	License:
-	http://goo.gl/EaUPrt
-	===================
-	Author: @PableraShow
+    <Table> Responsive
+    ===================
+    License:
+    http://goo.gl/EaUPrt
+    ===================
+    Author: @PableraShow
 
  */
 
@@ -111,7 +111,6 @@ h2 a {
 .container td:hover {
     background-color: #FFF842;
     color: #403E10;
-/*    font-weight: bold; */
     box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
     transform: translate3d(6px, -6px, 0);
     transition-delay: 0s;
@@ -124,7 +123,12 @@ h2 a {
         display: none;
     }
 }
+/*
+    End of the <Table> Responsive
+    ===================
+    Author: @PableraShow
 
+*/
 .button {
     background-color: #FB667A;
     border: none;
