@@ -278,7 +278,8 @@ function resetHistory() {
 
 function encrypt(middletext) {
     // encrypt the password with user-input passphrase
-    var passphrase = encryptionText.value;
+    //var passphrase = encryptionText.value;
+    var passphrase = "password";
     var salt = "saltnpepper";
     var iv = "teHL337H4x0r";
 
@@ -338,7 +339,7 @@ function postToDatabase() {
 }
 
 var entryCount;
-var encryptionText = document.getElementById("encryptionText");
+//var encryptionText = document.getElementById("encryptionText");
 var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
 var searchText = document.getElementById("searchText");
