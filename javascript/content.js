@@ -229,6 +229,9 @@ function getPassword() {
         if (parsedDomain == "twitter.com") {
             var password = getPasswordTwitter(passwords);
             return password;
+        } else { // for all unspecified domains
+            var password = passwords[0];
+            return password;
         }
     }
 }
