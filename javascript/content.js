@@ -207,9 +207,30 @@ function setBadgeValue() {
     });
 }
 
-function getPassword() {
-    var password = document.querySelector('input[type=password]');
+function getPasswordTwitter(passwords) {
+    var password = passwords[1];
     return password;
+}
+
+function getSubmitbuttonStackOverflow(loginForm) {
+    var submitButton = loginForm.querySelector('input[type=button]');
+    return submitButton;
+}
+
+function getPassword() {
+    var passwords = document.querySelectorAll('input[type=password]');
+    if (passwords.length == 1) {
+        var password = passwords[0];
+        return password;
+    }
+    // exception handling of when there are more than 1 password field in the page
+    else {
+        var parsedDomain = parseDomain(document.domain);
+        if (parsedDomain == "twitter.com") {
+            var password = getPasswordTwitter(passwords);
+            return password;
+        }
+    }
 }
 
 function getForm(password) {
@@ -221,10 +242,18 @@ function getForm(password) {
 
 function getUsername(loginForm) {
     var username = loginForm.querySelector('input[type=text], input[type=email]');
+    if (!username) { username = loginForm.querySelector('input:not([type=password])')};
     return username;
 }
 
 function getSubmitButton(loginForm) {
+    // exception handling of stackoverflow
+    var parsedDomain = parseDomain(document.domain);
+    if (parsedDomain == "stackoverflow.com") {
+        var submitButton = getSubmitbuttonStackOverflow(loginForm);
+        return submitButton;
+    }
+
     var submitButton = loginForm.querySelector('input[type=submit]');
     if (!submitButton) { submitButton = loginForm.querySelector('button[type=submit]'); }
     if (!submitButton) { submitButton = loginForm.querySelector('button[type=button]'); }
