@@ -283,13 +283,12 @@ function pageEvaluationLog(password, loginForm, username, submitButton) {
  *
  * sites that work: google, facebook, amazon, login.live.com, wordpress, github,
  * naver, nate, yscec.yonsei.ac.kr, everytime.kr, daum, megabox, reddit, heroku,
- * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice, yahoo, kakao
+ * gmarket.co.kr, c9.io, ebay.ca, 8tracks.com, wemakeprice, yahoo, kakao, twitter,
+ * stackoverflow
  *
  * sites that do not work:
- * twitter(multiple password fields),
- * yes24(img wrapped in anchor tag),
- * 11st.co.kr(username not captured) (doesn't work on lastpass either),
- * stackoverflow (login via google/facebook works, but other method has 2 input b)
+ * yes24(uses custom "Password" text field),
+ * 11st.co.kr(onclick event to encrypt and empty field)
  */
 
 var password = getPassword();
