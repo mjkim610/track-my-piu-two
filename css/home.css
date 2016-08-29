@@ -18,6 +18,11 @@ body {
     line-height: 1.42em;
     color: #CDCDCD;
     background-color: #6D7993;
+
+    background-image: url("/image/icon-big-transparent.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
 }
 h1 {
     font-size: 3em;
@@ -63,7 +68,7 @@ h2 a {
     font-weight: bold;
     font-size: 1em;
     text-align: left;
-    color: #185875;
+    color: #FFFFFF;
 }
 .container td {
     font-weight: normal;
@@ -82,13 +87,13 @@ h2 a {
 /* Background-color of the odd rows */
 
 .container tr:nth-child(odd) {
-    background-color: #323C50;
+    background-color: #576075;
 }
 
 /* Background-color of the even rows */
 
 .container tr:nth-child(even) {
-    background-color: #2C3446;
+    background-color: #4c5467;
 }
 .container th {
     background-color: #6D7993;
@@ -103,9 +108,9 @@ h2 a {
     box-shadow: 0 6px 6px -6px #0E1119;
 }
 .container td:hover {
-    background-color: #FFF842;
-    color: #403E10;
-    box-shadow: #7F7C21 -0.5px 0.5px, #7F7C21 -1px 1px, #7F7C21 -1.5px 1.5px, #7F7C21 -2px 2px, #7F7C21 -2.5px 2.5px, #7F7C21 -3px 3px;
+    background-color: #96858f;
+    color: #FFFFFF;
+    box-shadow: #5f535a -0.5px 0.5px, #5f535a -1px 1px, #5f535a -1.5px 1.5px, #5f535a -2px 2px, #5f535a -2.5px 2.5px, #5f535a -3px 3px;
     transform: translate3d(3px, -3px, 0);
     transition-delay: 0s;
     transition-duration: 0.4s;
@@ -124,7 +129,7 @@ h2 a {
 
 */
 .button {
-    background-color: #96858F;
+    background-color: #8aa88a;
     border: none;
     color: white;
     padding-top: 0.45ex;
