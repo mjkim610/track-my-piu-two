@@ -2,13 +2,22 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidenav.css">
     <title>Eagle</title>
     <meta charset="utf-8">
 </head>
 
 <body>
-    <h1><a href="home.html">Sites That Haven't Been Used in 100 Days</a></h1>
+    <h1>Sites That Haven't Been Used in 100 Days</h1>
 
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+      <a href="/html/home.html">Home</a>
+      <a href="/html/alert.html">Alert</a>
+      <a href="/html/chart.html">Charts</a>
+      <a href="#">Contact</a>
+    </div>
+    <span style="font-size:30px;cursor:pointer" id="openNav">&#9776; open</span>
 
     <div class="container" id="tableContainer">
         <table id="loginArray" cellpadding="3" cellspacing="0" width="100%">
@@ -20,7 +29,8 @@
         </table>
     </div>
 
-    <script src="javascript/alert.js"></script>
+    <script src="/javascript/alert.js"></script>
+    <script src="/javascript/navbar.js"></script>
 
 </body>
 

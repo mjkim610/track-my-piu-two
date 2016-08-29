@@ -2,14 +2,25 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidenav.css">
     <title>Eagle</title>
     <meta charset="utf-8">
 </head>
 
 <body>
-    <h1><a href="home.html">Charts</a></h1>
+    <h1>Charts</a></h1>
 
-    <script src="javascript/chart.js"></script>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+      <a href="/html/home.html">Home</a>
+      <a href="/html/alert.html">Alert</a>
+      <a href="/html/chart.html">Charts</a>
+      <a href="#">Contact</a>
+    </div>
+    <span style="font-size:30px;cursor:pointer" id="openNav">&#9776; open</span>
+
+    <script src="/javascript/navbar.js"></script>
+
 </body>
 
 </html>
