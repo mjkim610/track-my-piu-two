@@ -273,9 +273,14 @@ function show() {
 }
 
 function resetHistory() {
-    chrome.storage.sync.clear();
-    alert("History cleared!");
-    chrome.tabs.reload();
+    var confirm;
+    if (window.confirm("Are you sure you want to clear your login history?") == true) {
+        chrome.storage.sync.clear();
+        alert("History cleared!");
+        chrome.tabs.reload();
+    } else {
+        alert("History clear cancelled!")
+    }
 }
 
 var entryCount;
