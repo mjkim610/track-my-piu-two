@@ -5,7 +5,7 @@
     "short_name": "__MSG_short_name__",
     "author": "__MSG_author__",
     "description": "__MSG_description__",
-    "version": "1.0.1.4",
+    "version": "1.0.1.5",
     "default_locale": "en",
 
     "icons": {
