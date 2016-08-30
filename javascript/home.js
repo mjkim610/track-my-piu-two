@@ -58,8 +58,7 @@ function showResult() {
 	rows = table.getElementsByTagName("tr");
 	//if textbox is empty
     if (searchText.value == "") {
-
-        alert("Searchbox is Empty.\nResult will contain every URL/Username in destinated time section!");
+        alert("Searchbox is Empty.\nResult will contain all entries within the chosen time!");
 		for(var i = 1; i<rows.length; i++) {
 			var row = rows[i];
 			row.getElementsByTagName("td")[5].innerHTML="T";
@@ -68,22 +67,18 @@ function showResult() {
 	}
 	//if there is text to search
     else {
-        if (radioURL.checked) {
-            alert("search by URL");
+        if (radioUrl.checked) {
             for (var i = 1; i < rows.length; i++) {
                 var row = rows[i];
                 var url = row.getElementsByTagName("td")[0].innerHTML;
                 if (url.includes(searchText.value)) {
                     row.getElementsByTagName("td")[5].innerHTML="T";
-                }
-                else {
+                } else {
                     row.getElementsByTagName("td")[5].innerHTML="F";
                 }
             }
             show();
-        }
-        else if (radioID.checked) {
-            alert("search by UserName");
+        } else if (radioUsername.checked) {
             for (var i = 1; i < rows.length; i++) {
                 var row = rows[i];
                 var userName = row.getElementsByTagName("td")[1].innerHTML;
@@ -95,8 +90,7 @@ function showResult() {
                 }
             }
             show();
-        }
-        else {
+        } else {
             alert("Please select search type!");
         }
     }
@@ -104,10 +98,9 @@ function showResult() {
 
 function countResult(count) {
     if (count != 0) {
-        alert("There are " + count + " matching result(s).");
-    }
-    else {
-        alert("There are no matching result.");
+        console.log("There are " + count + " matching result(s).");
+    } else {
+        console.log("There are no matching result.");
     }
 }
 
@@ -129,14 +122,12 @@ function changeSelect(){
 
 	switch(selectedIndex) {
 		case 0://whole
-			alert(dropdown.options[0].value)
 			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				row.getElementsByTagName("td")[6].innerHTML ="T";
 			}
 			break;
 		case 1://1day
-			alert(dropdown.options[1].value);
 			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				if (row.style.display!='none') {
@@ -155,7 +146,6 @@ function changeSelect(){
 			}
             break;
 		case 2://2days
-			alert(dropdown.options[2].value);
 			var yesterday = new Date();
 			yesterday.setDate(yesterday.getDate() -1);
 			yesterday = dateToInt(yesterday.getFullYear(), yesterday.getMonth()+1, yesterday.getDate());
@@ -175,11 +165,9 @@ function changeSelect(){
 			}
             break;
 		case 3://1week
-			alert(dropdown.options[3].value);
 			var weekago = new Date();
 			weekago.setDate(weekago.getDate() -6);
 			weekago = dateToInt(weekago.getFullYear(), weekago.getMonth()+1, weekago.getDate());
-			//alert(weekago);
 			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				var timeC = row.getElementsByTagName("td")[3].innerHTML;
@@ -196,7 +184,6 @@ function changeSelect(){
 			}
             break;
 		case 4://1month
-			alert(dropdown.options[4].value);
 			var monthago = new Date();
 			monthago.setMonth(monthago.getMonth() -1);
 			monthago = dateToInt(monthago.getFullYear(), monthago.getMonth()+1, monthago.getDate());
@@ -219,11 +206,9 @@ function changeSelect(){
 			}
             break;
 		case 5://1year
-			alert(dropdown.options[5].value);
 			var yearago = new Date();
 			yearago.setFullYear(yearago.getFullYear() -1);
 			yearago = dateToInt(yearago.getFullYear(), yearago.getMonth()+1, yearago.getDate());
-			//alert(yearago);
 			for (var i = 1; i < rows.length; i++) {
 				var row = rows[i];
 				var timeC = row.getElementsByTagName("td")[3].innerHTML;
@@ -288,11 +273,21 @@ var resetButton = document.querySelector("button[id=reset]");
 var searchButton = document.querySelector("button[id=search]");
 var searchText = document.getElementById("searchText");
 var table = document.getElementById("loginInfoTable");
-var radioURL = document.getElementById("radioURL");
-var radioID = document.getElementById("radioID");
+var radioUrl = document.getElementById("radioUrl");
+var radioUsername = document.getElementById("radioUsername");
 var dropdown = document.getElementById("select");
 
 document.body.onload = loadTable;
 resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
+
+
+// jquery listener function for pressing enter to search
+$(document).ready(function() {
+    $('#searchText').keypress(function(e) {
+        if (e.keyCode == 13) {
+            showResult();
+        }
+    });
+});
