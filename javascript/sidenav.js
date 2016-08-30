@@ -1,5 +1,5 @@
 function openNav() {
-    document.getElementById("mySidenav").style.width = "200px";
+    document.getElementById("mySidenav").style.width = "225px";
 }
 
 function closeNav() {
@@ -10,17 +10,11 @@ function checkStatus() {
     var slider = document.getElementById("sliderCheckbox");
     var i;
     if (slider.checked) {
-        console.log("It's checked!");
-        var experimentalElements = document.getElementsByClassName("experimental");
-        for (i=0; i<experimentalElements.length; i++) {
-            experimentalElements[i].style.display = "block";
-        }
+        $(".experimental").animate({width: 'toggle'});
+        // $(".experimental").fadeIn(0); // no animation
     } else {
-        console.log("It's unchecked!");
-        var experimentalElements = document.getElementsByClassName("experimental");
-        for (i=0; i<experimentalElements.length; i++) {
-            experimentalElements[i].style.display = "none";
-        }
+        $(".experimental").animate({width: 'toggle'});
+        // $(".experimental").fadeOut(0); // no animation
     }
 }
 
