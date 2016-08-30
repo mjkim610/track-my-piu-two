@@ -34,6 +34,8 @@ function loadTable() {
             cellPassword = row.insertCell(2);
             cellTime = row.insertCell(3);
             cellAttempt = row.insertCell(4);
+            cellAttempt.className = "experimental";
+            cellAttempt.setAttribute("style", "display: none;");
 			cellSFlag = row.insertCell(5);
 			cellTFlag = row.insertCell(6);
 
