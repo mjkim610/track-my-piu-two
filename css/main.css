@@ -85,13 +85,11 @@ h2 a {
 }
 
 /* Background-color of the odd rows */
-
 .container tr:nth-child(odd) {
     background-color: #576075;
 }
 
 /* Background-color of the even rows */
-
 .container tr:nth-child(even) {
     background-color: #4c5467;
 }
