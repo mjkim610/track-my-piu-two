@@ -19,6 +19,19 @@ b.mapInfo {
 }
 
 /*Contact Us*/
+#left {
+    float:left;
+    width:50%;
+    text-align: right;
+}
+#right {
+    float:right;
+    width:50%;
+    text-align: left;
+}
+#footer {
+    clear:both;
+}
 textarea {
     width: 250px;
     height: 150px;

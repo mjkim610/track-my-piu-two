@@ -35,20 +35,26 @@
         <!-- change the form action to make it functional -->
         <!-- ******************************************** -->
         <!-- <form id="contactForm" name="contactForm" method="POST" action="asd.asp"> -->
-        <form id="contactForm" name="contactForm">
-            <h2>Message Us</h2>
+    <form id="contactForm" name="contactForm">
+        <h2>Message Us</h2>
+        <div>
+            <div id="left">
+                <input type="text" class="form-control" placeholder="Your Name *" name="name" id="name">
+                <p class="errorMessage" id="nameError"></p>
 
-            <input type="text" class="form-control" placeholder="Your Name *" name="name" id="name">
-            <p class="errorMessage" id="nameError"></p>
-
-            <input type="email" class="form-control" placeholder="Your Email *" name="email" id="email">
-            <p class="errorMessage" id="emailError"></p>
-
-            <textarea class="form-control" placeholder="Your Message *" name="message" id="message"></textarea>
+                <input type="email" class="form-control" placeholder="Your Email *" name="email" id="email">
+                <p class="errorMessage" id="emailError"></p>
+            </div>
+            <div id="right">
+                <textarea class="form-control" placeholder="Your Message *" name="message" id="message"></textarea>
+            </div>
             <p class="errorMessage" id="messageError"></p>
+        </div>
 
+        <div id="footer">
             <button class="button" type="submit">Send Message</button>
-        </form>
+        </div>
+    </form>
     </div>
 
     <script src="/javascript/sidenav.js"></script>
