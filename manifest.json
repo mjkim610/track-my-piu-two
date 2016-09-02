@@ -20,7 +20,13 @@
 
     "content_scripts": [{
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["javascript/external/jquery-3.1.0.min.js", "javascript/external/aes.js", "javascript/external/pbkdf2.js", "javascript/external/d3.min.js", "javascript/content.js"]
+        "js": [
+            "javascript/external/jquery-3.1.0.min.js",
+            "javascript/external/aes.js",
+            "javascript/external/pbkdf2.js",
+            "javascript/external/d3.min.js",
+            "javascript/content.js"
+        ]
     }],
 
     "background": {
@@ -32,5 +38,8 @@
         "activeTab",
         "storage",
         "https://ajax.googleapis.com/"
-    ]
+    ],
+
+    "content_security_policy":
+        "script-src 'self' https://maps.googleapis.com/; object-src 'self'"
 }
