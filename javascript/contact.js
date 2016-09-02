@@ -90,7 +90,7 @@ function sendContactMessage() {
         messageValue = messageValue.replace("+", "%2B");
     }
 
-    var input = "name="+name.value+"&email="+email.value+"&message="+message.value;
+    var input = "name="+nameValue+"&email="+emailValue+"&message="+messageValue;
     console.log("INPUT: "+input);
 
     var xhr = new XMLHttpRequest();
