@@ -7,3 +7,4 @@
 *optional
 1. add password manager functionality
 2. add reCAPTCHA on contact form
+3. alert admin when a message has been sent via SMS, email, etc.

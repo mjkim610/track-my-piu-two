@@ -30,14 +30,13 @@ function initMap() {
       content: "<h1 class='mapInfo'><b>Eagle Team Headquarters:</b></br>Yonsei University Engineering Research Park</h1>"
     });
 
-
     marker.addListener('click', function() {
       infoWindow.open(map, marker);
     });
 }
 
 function validateForm() {
-    document.getElementById("contactForm").onsubmit = function() {
+    document.getElementById("sendMessage").onclick = function() {
         var submit = true;
         var name = document.forms["contactForm"]["name"].value;
         var email = document.forms["contactForm"]["email"].value;
@@ -49,8 +48,8 @@ function validateForm() {
             document.getElementById("nameError").innerHTML = errorMessage;
             submit = false;
         }
-        if (email == null || email == "") {
-            errorMessage = "Please enter your email";
+        if (!validateEmail(email)) {
+            errorMessage = "Please enter a valid email";
             document.getElementById("emailError").innerHTML = errorMessage;
             submit = false;
         }
@@ -59,12 +58,21 @@ function validateForm() {
             document.getElementById("messageError").innerHTML = errorMessage;
             submit = false;
         }
+
+        if (submit) {
+            sendContactMessage();
+        }
         return submit;
     }
 
     document.getElementById("name").onkeyup = removeWarning;
     document.getElementById("email").onkeyup = removeWarning;
     document.getElementById("message").onkeyup = removeWarning;
+}
+
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 }
 
 function removeWarning() {
@@ -77,40 +85,27 @@ function sendContactMessage() {
     var emailValue = messageForm.querySelector("input[id='email']").value;
     var messageValue = messageForm.querySelector("textarea[id='message']").value;
 
-
     // replace '+' symbol with "%2B"
     while (messageValue.includes("+")) {
         messageValue = messageValue.replace("+", "%2B");
     }
 
-    var input = "name="+nameValue+"&email="+emailValue+"&message="+messageValue;
+    var input = "name="+name.value+"&email="+email.value+"&message="+message.value;
     console.log("INPUT: "+input);
-    var xhr = new XMLHttpRequest();
 
+    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.responseText);
+            alert(xhr.responseText);
+            messageForm.reset();
         }
     }
 
-    xhr.open("POST", "https://php-hollaholl.herokuapp.com/contactUs.php", true);
+    xhr.open("POST", "https://php-hollaholl.herokuapp.com/messageus.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(input);
 }
 
-var sendButton = document.getElementById("sendMessage");
-
-sendButton.onclick = sendContactMessage;
 document.body.onload = initialize;
 
-/* ********************
- * *******NOTES********
- * ********************
- */
 // google maps API key: AIzaSyAbqw9jWAQB-k-iHkFWM-BoqVPLgjBAgk8
-
-// utilize this regular expression checker later!
-function validateEmail(email) {
-  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-}
