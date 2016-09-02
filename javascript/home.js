@@ -282,7 +282,6 @@ resetButton.onclick = resetHistory;
 searchButton.onclick = showResult;
 dropdown.onchange = changeSelect;
 
-
 // jquery listener function for pressing enter to search
 $(document).ready(function() {
     $('#searchText').keypress(function(e) {

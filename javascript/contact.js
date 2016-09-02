@@ -71,7 +71,36 @@ function removeWarning() {
     document.getElementById(this.id + "Error").innerHTML = "";
 }
 
+function sendContactMessage() {
+    var messageForm = document.getElementById("contactForm");
+    var nameValue = messageForm.querySelector("input[id='name']").value;
+    var emailValue = messageForm.querySelector("input[id='email']").value;
+    var messageValue = messageForm.querySelector("textarea[id='message']").value;
 
+
+    // replace '+' symbol with "%2B"
+    while (messageValue.includes("+")) {
+        messageValue = messageValue.replace("+", "%2B");
+    }
+
+    var input = "name="+nameValue+"&email="+emailValue+"&message="+messageValue;
+    console.log("INPUT: "+input);
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    }
+
+    xhr.open("POST", "https://php-hollaholl.herokuapp.com/contactUs.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(input);
+}
+
+var sendButton = document.getElementById("sendMessage");
+
+sendButton.onclick = sendContactMessage;
 document.body.onload = initialize;
 
 /* ********************
