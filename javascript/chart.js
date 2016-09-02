@@ -39,6 +39,7 @@ var data2 = [{
 }];
 
 var visits = [];
+var visitCount = [];
 
 var min, max;
 
@@ -62,13 +63,37 @@ function getData() {
         max = visits[i-1].date;
         console.log("Min: "+min);
         console.log("Max: "+max);
+
+        getVisitCount();
         // start rest of the javascript functions
         initialize();
     });
 }
 
+function getVisitCount() {
+    console.log("#####################");
+    console.log("In getVisitCount()");
+    var visitEntry = {};
+    for (var key in visits) {
+        currentUrl = visits[key].url;
+        if (!(currentUrl in visitEntry)) {
+            visitEntry[currentUrl] = 1;
+            visitCount.push(currentUrl);
+        } else {
+            visitEntry[currentUrl]++;
+        }
+    }
+    console.log(visitCount);
+    console.log("#####################");
+}
+
+function initialize() {
+    drawChart();
+    console.log(visits);
+}
+
 function drawChart() {
-    var vis = d3.select("#visualisation"),
+    var vis = d3.select("#visualization"),
         WIDTH = 1000,
         HEIGHT = 500,
         MARGINS = {
@@ -113,11 +138,6 @@ function drawChart() {
       .attr('stroke', 'pink')
       .attr('stroke-width', 2)
       .attr('fill', 'none');
-}
-
-function initialize() {
-    drawChart();
-    console.log(visits);
 }
 
 document.body.onload = getData;

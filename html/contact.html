@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidenav.css">
+    <link rel="stylesheet" type="text/css" href="/css/contact.css">
+    <title>Eagle</title>
+    <meta charset="utf-8">
+
+    <script src="/javascript/external/jquery-3.1.0.min.js" charset="UTF-8"></script>
+
+</head>
+
+<body>
+    <h1>Contact Us</h1>
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+      <a href="/html/home.html">Home</a>
+      <a href="/html/alert.html">Alert</a>
+      <a href="/html/chart.html">Charts</a>
+      <a href="/html/contact.html">Contact</a>
+      <p>Experimental Features</p>
+      <label class="switch">
+          <input type="checkbox">
+          <div class="slider round"></div>
+      </label>
+    </div>
+    <div style="font-size:30px;cursor:pointer" id="openNav" class="openNav">&#9776; Menu</div>
+
+    <div id="contactDiv" class="container">
+        <!-- ******************************************** -->
+        <!-- change the form action to make it functional -->
+        <!-- ******************************************** -->
+        <!-- <form id="contactForm" name="contactForm" method="POST" action="asd.asp"> -->
+        <form id="contactForm" name="contactForm">
+            <h2>Message Us</h2>
+
+            <input type="text" class="form-control" placeholder="Your Name *" name="name" id="name">
+            <p class="errorMessage" id="nameError"></p>
+
+            <input type="email" class="form-control" placeholder="Your Email *" name="email" id="email">
+            <p class="errorMessage" id="emailError"></p>
+
+            <textarea class="form-control" placeholder="Your Message *" name="message" id="message"></textarea>
+            <p class="errorMessage" id="messageError"></p>
+
+            <button class="button" type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <script src="/javascript/sidenav.js"></script>
+    <script src="/javascript/contact.js"></script>
+
+</body>
+
+</html>

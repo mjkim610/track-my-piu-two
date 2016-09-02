@@ -1,0 +1,10 @@
+textarea {
+    width: 250px;
+    height: 150px;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+.errorMessage  {
+    margin: 0px 0px 5px 0px;
+}

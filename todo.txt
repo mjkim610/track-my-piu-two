@@ -1,0 +1,9 @@
+1. create a working chart.html
+2. be able to delete entries individually
+3. port remote-db function to experimental features in the master branch
+4. encapsulate navbar html code into a separate file
+5. add favicon to each entry
+
+*optional
+1. add password manager functionality
+2. add reCAPTCHA on contact form
